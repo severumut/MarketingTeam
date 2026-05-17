@@ -18,7 +18,26 @@ Icon
 # Hassas dosyalar
 *.env
 .env.*
+!.env.ornek
 *credentials*
 *secret*
 *.key
 *.pem
+*.p8
+
+# MarketingTeam — Sırlar / Tokenlar
+entegrasyonlar/token-vault.md
+entegrasyonlar/**/secrets.md
+entegrasyonlar/**/credentials.json
+
+# MarketingTeam — Hesap kurulumu özel notları
+hesap-kurulumlari/**/private.md
+
+# MarketingTeam — Proje-özel özel notlar
+projects/*/private/
+projects/*/private.md
+projects/*/notes-private.md
+
+# MarketingTeam — Lokal AI agent state / cache
+.cache/
+.tmp/
