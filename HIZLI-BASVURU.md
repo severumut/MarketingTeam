@@ -19,8 +19,8 @@ Otomatik tetikleme zaten çoğu durumda çalışır — bu dosya manuel kontrolu
 | TikTok'ta kampanya | (doğal soru) | `mt-tiktok-ads-uzmani` |
 | Apple Search Ads | (doğal soru) | `mt-apple-search-ads-uzmani` |
 | Google App Campaigns | (doğal soru) | `mt-google-ads-uzmani` |
-| Reklam görseli üretmek | `/mt-creative-uretim` | `mt-creative-yonetmeni` |
-| TikTok/Reels içerik fikri | `/mt-content-takvimi` | `mt-content-uretici` |
+| Reklam görseli/videosu üretmek | `/mt-creative-uretim` | `mt-creative-yonetmeni` |
+| Viral hook / trend araştır | (doğal soru) | `mt-creative-yonetmeni` Mod E |
 | Rakip analizi | `/mt-rakip-analizi` | `mt-rakip-arastirmaci` |
 | Bütçe planlamak | `/mt-butce-planla` | `mt-strateji-uzmani` |
 | Haftalık performans | `/mt-haftalik-rapor` | `mt-kampanya-analisti` |
@@ -138,11 +138,8 @@ mt-paid-ua-uzmani çerçeve verir
 - "Bu app için 5 reklam görseli üret"
 - "Paywall için A/B test varyantları çıkar"
 - "Reels ad copy varyantları yaz"
-
-### `mt-content-uretici`
-- "Bu hafta için TikTok video fikirleri lazım"
-- "UGC creator brief'i yaz"
-- "Reels için 5 hook fikri"
+- "TikTok için AI-UGC tarzı video üret"
+- "Bu hafta TikTok'ta hangi trend var, paid'e adapte edelim" *(Mod E — Trend Research)*
 
 ### `mt-strateji-uzmani`
 - "Mayıs ayı bütçemi nasıl dağıtmalıyım?"

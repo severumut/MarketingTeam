@@ -1,25 +1,24 @@
 # .claude/agents/ — Uzman Ajanlar
 
-Bu klasör 14 adet uzman ajanı içerir. Her ajan `.md` dosyası YAML başlığıyla başlar ve Claude Code tarafından otomatik yüklenir.
-
-> ⚠️ Phase 0 sonu: Bu klasör henüz boş. Ajanlar Phase 1'de **yavaş mod** ile sırayla yazılacak.
+Bu klasör **13** adet uzman ajanı içerir. Her ajan `.md` dosyası YAML başlığıyla başlar ve Claude Code tarafından otomatik yüklenir.
 
 ## Yazılım sırası (PAID öncelikli)
 
-1. `mt-marketing-tutor`
-2. `mt-hesap-kurulum-rehberi`
-3. `mt-paid-ua-uzmani`
-4. `mt-meta-ads-uzmani`
-5. `mt-tiktok-ads-uzmani`
-6. `mt-apple-search-ads-uzmani`
-7. `mt-google-ads-uzmani`
-8. `mt-creative-yonetmeni`
-9. `mt-content-uretici`
-10. `mt-strateji-uzmani`
-11. `mt-kampanya-analisti`
-12. `mt-rakip-arastirmaci`
-13. `mt-aso-uzmani`
-14. `mt-entegrasyon-kurucu`
+1. `mt-marketing-tutor` ✅
+2. `mt-hesap-kurulum-rehberi` ✅
+3. `mt-paid-ua-uzmani` ✅
+4. `mt-meta-ads-uzmani` ✅
+5. `mt-tiktok-ads-uzmani` ✅
+6. `mt-apple-search-ads-uzmani` ✅
+7. `mt-google-ads-uzmani` ✅
+8. `mt-creative-yonetmeni` ✅ (5 mod: Brief→Üretim, Copy, A/B set, Revizyon, Trend Research)
+9. `mt-strateji-uzmani` ⏳
+10. `mt-kampanya-analisti` ⏳
+11. `mt-rakip-arastirmaci` ⏳
+12. `mt-aso-uzmani` ⏳
+13. `mt-entegrasyon-kurucu` ⏳
+
+> **Not (2026-05-18)**: `mt-content-uretici` kapsamdan çıkarıldı. Sistem sadece paid odaklı (UGC creator outreach + organik post = kullanıcının yapmayacağı işler). Trend research → `mt-creative-yonetmeni` Mod E.
 
 ## Her ajan için uyulacak kurallar
 

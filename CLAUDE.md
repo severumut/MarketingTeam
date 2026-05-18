@@ -40,8 +40,7 @@ Bu klasörün tüm ajan ve skill'leri `mt-` (Marketing Team) prefix'i ile başla
 | "TikTok reklam" / "Spark Ads" / "UGC" | `mt-tiktok-ads-uzmani` |
 | "Apple Search Ads" / "ASA" / "search match" | `mt-apple-search-ads-uzmani` |
 | "Google App Campaigns" / "UAC" / "AC for installs" | `mt-google-ads-uzmani` |
-| "Reklam görseli" / "ad creative" / "paywall görsel" / "A/B test" | `mt-creative-yonetmeni` veya `/mt-creative-uretim` |
-| "TikTok için video fikri" / "Reels" / "content takvimi" / "UGC creator" | `mt-content-uretici` veya `/mt-content-takvimi` |
+| "Reklam görseli" / "ad creative" / "paywall görsel" / "A/B test" / "TikTok video fikri" / "Reels" / "viral hook" / "trend araştır" | `mt-creative-yonetmeni` veya `/mt-creative-uretim` |
 | "Bütçe nasıl" / "aylık plan" / "marketing stratejisi" | `mt-strateji-uzmani` veya `/mt-butce-planla` |
 | "Kampanyalarım nasıl" / "ROAS" / "performans" / "kes mi devam mı" | `mt-kampanya-analisti` veya `/mt-haftalik-rapor` |
 | "Rakip" / "ad library" / "rakip pricing" | `mt-rakip-arastirmaci` veya `/mt-rakip-analizi` |
@@ -98,7 +97,7 @@ Phase 0'da hazır:
 - **Scheduled Tasks MCP** — Phase 4'te aktive edilecek otomasyonlar
 
 Creative üretim altyapısı (kurulum bekliyor — FAL_KEY + SHOTSTACK_API_KEY ile aktive olur):
-- **fal.ai MCP** — 1000+ generative model (FLUX, Nano Banana, Ideogram, Kling, Veo, audio). Ana creative üretim motoru. `mt-creative-yonetmeni`, `mt-content-uretici`, `mt-aso-uzmani` paylaşır.
+- **fal.ai MCP** — 1000+ generative model (FLUX, Nano Banana, Ideogram, Kling, Veo, Seedance, audio). Ana creative üretim motoru. `mt-creative-yonetmeni` ve `mt-aso-uzmani` paylaşır.
 - **Shotstack MCP** — Video post-production (concat, captions, logo, music sync, template-based bulk varyant). `mt-creative-yonetmeni` kullanır.
 
 Phase 4'te eklenecekler:
@@ -123,7 +122,7 @@ Durum tablosu: `entegrasyonlar/kurulu-entegrasyonlar.md`.
 - **Kalite gate** (vision): Üretim sonrası 8 checklist puanlama, < 60/80 ise retry (max 2)
 - **Öğrenen sistem**: Beğenilen modeller `entegrasyonlar/fal-ai/favori-modeller.md`'ye eklenir, AI önce buraya bakar
 - **Maliyet kontrolü esnek**: Sabit limit yok, brief-bazlı bütçe; aylık tracking `entegrasyonlar/fal-ai/kullanim-istatistikleri.md`'de
-- **Sınırlar**: Bu pipeline brand-produced paid creative içindir. UGC creator brief → `mt-content-uretici`. App Store screenshot → `mt-aso-uzmani`. Paywall UI tasarımı → bu sistemin dışı, kullanıcının kendi işi.
+- **Sınırlar**: Bu pipeline brand-produced + AI-generated paid creative içindir. UGC creator outreach / manuel çekim → **bu sistem dışı** (kullanıcı bu yola gitmiyor — AI ile üretiyoruz). App Store screenshot → `mt-aso-uzmani`. Paywall UI tasarımı → kullanıcının kendi işi.
 
 ---
 

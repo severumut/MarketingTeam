@@ -61,8 +61,7 @@ Hızlı eşleştirme:
 | "Meta'da hesap nasıl açılır?" | `mt-hesap-kurulum-rehberi` |
 | "Hangi kanaldan başlamalıyım?" | `mt-paid-ua-uzmani` |
 | "Meta / TikTok / ASA / Google reklam kur" | İlgili platform uzmanı |
-| "Reklam görseli üret" | `mt-creative-yonetmeni` |
-| "TikTok için video fikri" | `mt-content-uretici` |
+| "Reklam görseli/videosu üret" / "TikTok AI-UGC video" / "trend araştır" | `mt-creative-yonetmeni` |
 | "Bütçemi nasıl bölmeli?" | `mt-strateji-uzmani` |
 | "Kampanyalarım nasıl gidiyor?" | `mt-kampanya-analisti` |
 | "Rakibim ne yapıyor?" | `mt-rakip-arastirmaci` |

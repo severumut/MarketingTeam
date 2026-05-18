@@ -1,6 +1,6 @@
 # Creative Üretim Altyapısı
 
-> Bu dosya, **mt-creative-yonetmeni** (ve creative üretim kullanan diğer ajanlar — mt-content-uretici, mt-aso-uzmani) için tek referans noktası.
+> Bu dosya, **mt-creative-yonetmeni** (ve creative üretim kullanan diğer ajanlar — `mt-aso-uzmani`) için tek referans noktası.
 
 ---
 
@@ -52,7 +52,6 @@ projects/<app>/creative/...
 | Ajan | fal.ai | Shotstack | Claude vision |
 |---|---|---|---|
 | **mt-creative-yonetmeni** | ✅ ana motor | ✅ post-prod | ✅ kalite gate |
-| **mt-content-uretici** | ✅ (nadiren — bulk concept) | ❌ | ✅ (UGC content tarama) |
 | **mt-aso-uzmani** | ✅ (Ideogram screenshot) | ❌ | ✅ (text spelling check) |
 | **mt-rakip-arastirmaci** | ❌ | ❌ | ✅ (rakip creative analizi) |
 

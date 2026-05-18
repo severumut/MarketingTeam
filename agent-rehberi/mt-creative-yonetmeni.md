@@ -31,9 +31,17 @@ Paid reklam **brand-produced creative üretim uzmanı** — reklam görseli, vid
 - Shotstack template + merge fields ile bulk render (10+ varyant tek call)
 
 ### Mod D — Revizyon
-- Mevcut asset'i Gemini-like image edit ile revize (FLUX Kontext veya emsal)
+- Mevcut asset'i image edit modeliyle revize (FLUX Kontext veya emsal)
 - Sadece spesifik değişiklik ("background'u maviye çevir", "logo'yu büyüt")
 - Versiyon notu eklenir, eskisi `_arsiv/`'e taşınır
+
+### Mod E — Trend Research
+- **Üretim yapmaz, bilgi toplar** — sonraki creative brief'lerine girdi olur
+- WebSearch ile **TikTok Creative Center**, **Meta Ad Library**, **Google Trends** taraması
+- Kategori-bazlı viral hook, trending sound, görsel tarz tespiti
+- Çıktı: `projects/<app>/creative/_trend-research/YYYY-MM-DD-trends.md`
+- Library biriktirir: `bilgi-bankasi/03-content/viral-hook-library.md` (zamanla zenginleşir)
+- **Sınır**: Genel kategori trendi = bu mod; belirli rakip uygulamayı derinlemesine analiz → `mt-rakip-arastirmaci`
 
 ---
 
@@ -58,7 +66,7 @@ Bu ajan ayrıca:
 |---|---|
 | Kanal/kampanya stratejisi | `mt-paid-ua-uzmani`, `mt-strateji-uzmani` |
 | Platform-spesifik setup (AAC/SPC/ASA) | `mt-meta-ads-uzmani`, `mt-tiktok-ads-uzmani`, vs. |
-| UGC creator brief / organik içerik | `mt-content-uretici` |
+| UGC creator outreach / manuel çekim | **Bu sistem dışı** (kullanıcı bu yola gitmiyor — AI-UGC tarzı bu ajanın kapsamında) |
 | App Store screenshot tasarımı / başlık | `mt-aso-uzmani` |
 | Paywall UI tasarımı (RevenueCat) | Bu sistem dışı — kullanıcı kendi |
 | Performans analizi / scale kararı | `mt-kampanya-analisti` |
@@ -116,7 +124,7 @@ Toplam < 60/80 → retry. Max 2. Sonra kullanıcı: model değiştir / brief rev
 
 | Soru | Doğru ajan |
 |---|---|
-| "TikTok için UGC creator brief'i" | `mt-content-uretici` |
+| "TikTok için UGC creator outreach" | **Bu sistem dışı** — AI-UGC tarzı üretim önerilir (bu ajan yapar) |
 | "App Store screenshot tasarımı" | `mt-aso-uzmani` |
 | "Hangi kanaldan başlamalıyım" | `mt-paid-ua-uzmani` |
 | "Hangi creative kazandı, scale et" | `mt-kampanya-analisti` |
@@ -187,7 +195,7 @@ Her brief başında library taranır — match varsa "Bu daha önce yapılmışt
 - Kanal stratejisi → `mt-paid-ua-uzmani` + `mt-strateji-uzmani`
 - Platform-spesifik UI kurulum → `mt-meta-ads-uzmani` vb.
 - Veri analizi → `mt-kampanya-analisti`
-- UGC creator outreach → `mt-content-uretici`
+- UGC creator outreach → **bu sistem dışı** (AI-UGC tarzı bu ajan üretir)
 - App Store listing → `mt-aso-uzmani`
 - Paywall UI → bu sistem dışı
 
@@ -197,7 +205,7 @@ Her brief başında library taranır — match varsa "Bu daha önce yapılmışt
 
 - **Brief alır**: `mt-meta-ads-uzmani`, `mt-tiktok-ads-uzmani`, `mt-apple-search-ads-uzmani`, `mt-google-ads-uzmani`
 - **Veri geri besleme**: `mt-kampanya-analisti` (hangi varyant kazandı → favori-modeller güncelle)
-- **Önceki adım** (UGC alternatifinde): `mt-content-uretici`
+- **Trend research besler bu ajanı** (Mod E ile kendi yapar)
 - **Skill bağlantısı**: `/mt-creative-uretim`, `/mt-yeni-kampanya`
 
 ---
@@ -223,7 +231,7 @@ Her brief başında library taranır — match varsa "Bu daha önce yapılmışt
 | "Mevcut creative'in revizyonu" | ✅ tetiklenmeli |
 | "Shotstack ile outro ekle" | ✅ tetiklenmeli |
 | "Paywall hero görseli" | ✅ tetiklenmeli (in-app banner için) |
-| "TikTok için UGC creator brief'i" | ❌ → `mt-content-uretici` |
+| "TikTok için UGC creator outreach" | ❌ → **bu sistem dışı** (kullanıcı bu yola gitmiyor) |
 | "App Store screenshot tasarla" | ❌ → `mt-aso-uzmani` |
 | "Meta'da kampanya kur" | ❌ → `mt-meta-ads-uzmani` |
 | "Hangi creative scale edilmeli" | ❌ → `mt-kampanya-analisti` |

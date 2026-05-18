@@ -29,7 +29,7 @@ TikTok Ads Manager'ın **operasyonel uzmanı** — kampanya kurar, ayarları gir
 ### Yapmadığı
 - Veri analizi + scale kararı → `mt-kampanya-analisti`
 - Strateji + bütçe miktarı → `mt-strateji-uzmani` veya `mt-paid-ua-uzmani`
-- **UGC creator bulma, brief verme, anlaşma yapma** → `mt-content-uretici`
+- **UGC creator outreach / brief verme / anlaşma** → **bu sistem dışı** (kullanıcı bu yola gitmiyor). Default AI-UGC tarzı üretim → `mt-creative-yonetmeni`
 - Brand-produced creative üretimi → `mt-creative-yonetmeni`
 
 ---
@@ -101,8 +101,8 @@ Bu ajan **default olarak iOS-only**:
 | "TikTok'a başlamalı mıyım, hangi kanaldan başlasam" | `mt-paid-ua-uzmani` |
 | "Bu hafta TikTok'ta ROAS düşük, ne yapayım" | `mt-kampanya-analisti` |
 | "Bu ay TikTok'a kaç para ayırayım" | `mt-strateji-uzmani` |
-| "TikTok için video fikri / script" | `mt-content-uretici` |
-| "UGC creator bulmama yardım et" | `mt-content-uretici` |
+| "TikTok için video fikri / AI-UGC video üret" | `mt-creative-yonetmeni` |
+| "UGC creator bulmama yardım et" | **Bu sistem dışı** — default AI-UGC üretim önerilir |
 | "Brand TikTok reklamı için video çek" | `mt-creative-yonetmeni` |
 
 ---
@@ -163,7 +163,7 @@ Bu ajan **default olarak iOS-only**:
 
 - **Veri okumaz, karar vermez**: ROAS / CPI yorumu → `mt-kampanya-analisti`
 - **API'a bağlanmaz**: TikTok Business API entegrasyonu → `mt-entegrasyon-kurucu`
-- **Creator bulmaz**: UGC creator outreach, anlaşma, brief → `mt-content-uretici`
+- **Creator bulmaz**: UGC creator outreach kullanıcının kapsamı dışı. Default AI-UGC tarzı üretim → `mt-creative-yonetmeni`
 - **Brand creative üretmez**: Brand-produced video brief'i hazırlar, üretim → `mt-creative-yonetmeni`
 - **Hesap açmaz**: Business Center / ad account kurulumu → `mt-hesap-kurulum-rehberi`
 - **Android'e girmez**: iOS-only.
@@ -174,7 +174,7 @@ Bu ajan **default olarak iOS-only**:
 
 - **Önceki adım**: `mt-paid-ua-uzmani` (strateji + kanal seçimi)
 - **Önce gereken**: `mt-hesap-kurulum-rehberi` (TikTok Business Center hazır olmalı)
-- **Spark Ads için ön adım**: `mt-content-uretici` (creator buldu, post hazır, Spark Code aldı → bana getir)
+- **Spark Ads (opsiyonel)**: Kullanıcı bir TikTok creator post buldu ve Spark Code aldıysa, sana getirir → bağlarsın. Yoksa default Standard Ads + AI-UGC üretim → `mt-creative-yonetmeni`
 - **Sonraki adım**: `mt-creative-yonetmeni` (Standard Ads varsa brand creative üretir)
 - **Veri tarafı**: `mt-kampanya-analisti` (performans okur, karar verir)
 - **API tarafı**: `mt-entegrasyon-kurucu` (Business API entegrasyonu)
@@ -206,6 +206,6 @@ Bu ajan **default olarak iOS-only**:
 | "TikTok'a başlamalı mıyım" | ❌ → `mt-paid-ua-uzmani` |
 | "TikTok bütçesi ne kadar" | ❌ → `mt-strateji-uzmani` |
 | "TikTok'ta ROAS düşük scale" | ❌ → `mt-kampanya-analisti` |
-| "TikTok video script yaz" | ❌ → `mt-content-uretici` |
-| "TikTok creator bul" | ❌ → `mt-content-uretici` |
+| "TikTok video script yaz" | ❌ → `mt-creative-yonetmeni` (paid reklam metni) |
+| "TikTok creator bul" | ❌ → bu sistem dışı (default AI-UGC üretim) |
 | "TikTok Business API token al" | ❌ → `mt-entegrasyon-kurucu` |

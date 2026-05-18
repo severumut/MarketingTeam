@@ -9,7 +9,7 @@ Bu dosya hangi platforma / hangi servise API ya da MCP üzerinden bağlı olduğ
 | Entegrasyon | Tip | Durum | Kullanan ajan(lar) | Notu |
 |---|---|---|---|---|
 | **RevenueCat MCP** | MCP | ✅ Kurulu | `mt-kampanya-analisti` + Skill `/mt-revenuecat-ozet` | Subscription, paywall, customer, LTV verisi |
-| **fal.ai MCP** | MCP | ✅ Kurulu + test edildi | `mt-creative-yonetmeni`, `mt-content-uretici`, `mt-aso-uzmani` | 1000+ model — image (FLUX, Nano Banana, Ideogram), video (Seedance, Kling, Veo, Sora). **Ana creative üretim motoru** |
+| **fal.ai MCP** | MCP | ✅ Kurulu + test edildi | `mt-creative-yonetmeni`, `mt-aso-uzmani` | 1000+ model — image (FLUX, Nano Banana, Ideogram), video (Seedance, Kling, Veo, Sora). **Ana creative üretim motoru** |
 | **Shotstack MCP** | MCP | ✅ Kurulu + OAuth tamamlandı | `mt-creative-yonetmeni` | Video editing API. Owner: `mnykuye0e9`, mevcut 11 template (TikTok AI içerik dahil) |
 | **Scheduled Tasks MCP** | MCP | ✅ Kurulu (aktive değil) | (Phase 4'te kullanılır) | Haftalık rapor / aylık strateji otomasyonu |
 | **n8n MCP** | MCP | ✅ Kurulu | (opsiyonel, workflow için) | İleri otomasyon |

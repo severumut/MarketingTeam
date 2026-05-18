@@ -1,6 +1,6 @@
 # .claude/skills/ — User-Invocable Skill'ler
 
-Bu klasör 13 adet user-invocable skill içerir. Her skill `<skill-adi>/SKILL.md` formatında bir klasör altında yaşar.
+Bu klasör **12** adet user-invocable skill içerir. Her skill `<skill-adi>/SKILL.md` formatında bir klasör altında yaşar.
 
 > ⚠️ Phase 0 sonu: Bu klasör henüz boş. Skill'ler Phase 2'de **yavaş mod** ile sırayla yazılacak.
 
@@ -12,13 +12,14 @@ Bu klasör 13 adet user-invocable skill içerir. Her skill `<skill-adi>/SKILL.md
 4. `mt-rakip-analizi`
 5. `mt-butce-planla`
 6. `mt-creative-uretim`
-7. `mt-content-takvimi`
-8. `mt-yeni-kampanya`
-9. `mt-haftalik-rapor`
-10. `mt-aylik-strateji`
-11. `mt-revenuecat-ozet`
-12. `mt-aso-audit`
-13. `mt-api-entegrasyon`
+7. `mt-yeni-kampanya`
+8. `mt-haftalik-rapor`
+9. `mt-aylik-strateji`
+10. `mt-revenuecat-ozet`
+11. `mt-aso-audit`
+12. `mt-api-entegrasyon`
+
+> **Not (2026-05-18)**: `mt-content-takvimi` kapsamdan çıkarıldı (paid-only sistemde organik content takvimi gerekmez).
 
 ## Her skill için uyulacak kurallar
 

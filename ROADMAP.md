@@ -39,13 +39,14 @@ Bu klasör aşamalı (Phase by Phase) büyür. Her Phase bir önceki üstüne in
 | 5 | `mt-tiktok-ads-uzmani` | UGC odaklı viral fırsatlar |
 | 6 | `mt-apple-search-ads-uzmani` | iOS için en yüksek ROAS potansiyeli |
 | 7 | `mt-google-ads-uzmani` | Çeşitlendirme için |
-| 8 | `mt-creative-yonetmeni` | Tüm platformların creative ihtiyacı |
-| 9 | `mt-content-uretici` | Organik content sütunu |
-| 10 | `mt-strateji-uzmani` | Çoklu kanal arası stratejik karar |
-| 11 | `mt-kampanya-analisti` | Performans takibi |
-| 12 | `mt-rakip-arastirmaci` | Market gözlem |
-| 13 | `mt-aso-uzmani` | İkincil sütun (kullanıcı zaten yapıyor) |
-| 14 | `mt-entegrasyon-kurucu` | Phase 4'te API kurulumları için |
+| 8 | `mt-creative-yonetmeni` | Tüm platformların creative ihtiyacı + trend research (Mod E) |
+| 9 | `mt-strateji-uzmani` | Çoklu kanal arası stratejik karar |
+| 10 | `mt-kampanya-analisti` | Performans takibi |
+| 11 | `mt-rakip-arastirmaci` | Market gözlem |
+| 12 | `mt-aso-uzmani` | İkincil sütun (kullanıcı zaten yapıyor) |
+| 13 | `mt-entegrasyon-kurucu` | Phase 4'te API kurulumları için |
+
+> **Not (2026-05-18)**: `mt-content-uretici` ajanı kapsamdan çıkarıldı. Sebep: Sistem sadece paid odaklı (organik content + UGC creator outreach kullanıcının kapsamı dışı). Trend research → `mt-creative-yonetmeni` Mod E olarak entegre.
 
 ---
 
@@ -65,13 +66,12 @@ Bu klasör aşamalı (Phase by Phase) büyür. Her Phase bir önceki üstüne in
 | 4 | `/mt-rakip-analizi` | Yeni app öncesi yapılır |
 | 5 | `/mt-butce-planla` | Ay başı |
 | 6 | `/mt-creative-uretim` | Kampanya öncesi |
-| 7 | `/mt-content-takvimi` | Haftalık |
-| 8 | `/mt-yeni-kampanya` | Hesap + creative hazır olunca |
-| 9 | `/mt-haftalik-rapor` | Operasyonel rutin |
-| 10 | `/mt-aylik-strateji` | Ay sonu |
-| 11 | `/mt-revenuecat-ozet` | Subscription app'leri için |
-| 12 | `/mt-aso-audit` | Periyodik denetim |
-| 13 | `/mt-api-entegrasyon` | Phase 4'te kullanılır |
+| 7 | `/mt-yeni-kampanya` | Hesap + creative hazır olunca |
+| 8 | `/mt-haftalik-rapor` | Operasyonel rutin |
+| 9 | `/mt-aylik-strateji` | Ay sonu |
+| 10 | `/mt-revenuecat-ozet` | Subscription app'leri için |
+| 11 | `/mt-aso-audit` | Periyodik denetim |
+| 12 | `/mt-api-entegrasyon` | Phase 4'te kullanılır |
 
 ---
 
