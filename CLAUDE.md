@@ -63,6 +63,19 @@ Bu klasörün tüm ajan ve skill'leri `mt-` (Marketing Team) prefix'i ile başla
 - **Token / sırlar güvenliği**: Hiçbir gerçek API key / token / parola bu klasörde commit'lenmez. Hepsi `.env` veya `.gitignore`'da olan `token-vault.md` içinde.
 - **Memory kullanımı**: Skill'ler ilerleme durumunu Claude memory'ye yazar; kullanıcı yarıda kalan akışları kaldığı yerden devam ettirebilir.
 
+### 5.1 Bilinmeyen terim davranışı (Proaktif tutor kuralları)
+
+Kullanıcı app marketing'i sıfırdan öğreniyor — sohbette geçen teknik terimlerin çoğunu bilmiyor olabilir. İki kural:
+
+1. **İlk kez geçen bir terim** (kullanıcının önceki konuşmalarda öğrenmediği) parantez içinde mini-tanımla yumuşatılır:
+   > "Bu kampanya AEM (Aggregated Event Measurement — Meta'nın iOS 14.5+ sonrası ölçüm sistemi) ile çalışıyor..."
+
+2. **Kullanıcı "anlamadım", "ne demek o", "açıklar mısın", "kafam karıştı" derse** otomatik olarak `mt-marketing-tutor` çağrılır.
+
+> Not: "Cevabın sonuna 2+ kısaltma varsa 'öğrenmek ister misin?' sormak" gibi proaktif teklif yapılmaz — kullanıcı bilmediğini doğal akışta sorar; ekstra sormak gürültü yaratır.
+
+`mt-marketing-tutor`'un memory dosyaları (`marketing_known_terms.md`, `marketing_learning_style.md`) terim bilgisinin kaynağıdır. Bir terimin parantezle yumuşatılıp yumuşatılmayacağına bu memory'ye bakarak karar verilir.
+
 ---
 
 ## 6. Phase durumu
