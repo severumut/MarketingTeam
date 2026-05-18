@@ -2,14 +2,15 @@
 
 Bu dosya hangi platforma / hangi servise API ya da MCP üzerinden bağlı olduğunu özetler. Her satır bir entegrasyon.
 
-> Güncelleme tarihi: 2026-05-17 (Phase 0)
+> Güncelleme tarihi: 2026-05-18
 
 ## Genel tablo
 
 | Entegrasyon | Tip | Durum | Kullanan ajan(lar) | Notu |
 |---|---|---|---|---|
 | **RevenueCat MCP** | MCP | ✅ Kurulu | `mt-kampanya-analisti` + Skill `/mt-revenuecat-ozet` | Subscription, paywall, customer, LTV verisi |
-| **Gemini MCP** | MCP | ✅ Kurulu | `mt-creative-yonetmeni` + Skill `/mt-creative-uretim` | Görsel + video üretimi |
+| **fal.ai MCP** | MCP | ✅ Kurulu + test edildi | `mt-creative-yonetmeni`, `mt-content-uretici`, `mt-aso-uzmani` | 1000+ model — image (FLUX, Nano Banana, Ideogram), video (Seedance, Kling, Veo, Sora). **Ana creative üretim motoru** |
+| **Shotstack MCP** | MCP | ✅ Kurulu + OAuth tamamlandı | `mt-creative-yonetmeni` | Video editing API. Owner: `mnykuye0e9`, mevcut 11 template (TikTok AI içerik dahil) |
 | **Scheduled Tasks MCP** | MCP | ✅ Kurulu (aktive değil) | (Phase 4'te kullanılır) | Haftalık rapor / aylık strateji otomasyonu |
 | **n8n MCP** | MCP | ✅ Kurulu | (opsiyonel, workflow için) | İleri otomasyon |
 | **mcp-registry** | MCP | ✅ Kurulu | `mt-entegrasyon-kurucu` | Yeni MCP arama |
@@ -19,6 +20,8 @@ Bu dosya hangi platforma / hangi servise API ya da MCP üzerinden bağlı olduğ
 | **Apple Search Ads Campaign Management API** | REST API | ⏳ Phase 4 | `mt-apple-search-ads-uzmani` | Apple Developer kimliği gerekli |
 | **Google Ads API** | REST API | ⏳ Phase 4 | `mt-google-ads-uzmani` | Google Cloud project + developer token |
 | **AppsFlyer / Adjust API** | REST API | ❌ Karar verilmedi | `mt-kampanya-analisti` | MMP kullanılıyorsa açılır |
+
+> **Not (2026-05-18)**: Gemini MCP creative pipeline'dan çıkarıldı. Sebep: Claude (orkestratör) Türkçe prompt mühendisliği + vision-based kalite analizini kendi yapıyor; Gemini'nin görsel/video modelleri (Nano Banana Pro, Imagen) zaten fal.ai üzerinden erişilebilir. Tek vendor ile çakışmadan daha verimli pipeline.
 
 ---
 

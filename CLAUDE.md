@@ -95,8 +95,11 @@ Ajan veya skill henüz yazılmadıysa, kullanıcı ona yönlendirilen bir soru s
 
 Phase 0'da hazır:
 - **RevenueCat MCP** — Subscription / paywall / LTV verisi
-- **Gemini MCP** — Görsel ve video üretimi (`mt-creative-yonetmeni` kullanır)
 - **Scheduled Tasks MCP** — Phase 4'te aktive edilecek otomasyonlar
+
+Creative üretim altyapısı (kurulum bekliyor — FAL_KEY + SHOTSTACK_API_KEY ile aktive olur):
+- **fal.ai MCP** — 1000+ generative model (FLUX, Nano Banana, Ideogram, Kling, Veo, audio). Ana creative üretim motoru. `mt-creative-yonetmeni`, `mt-content-uretici`, `mt-aso-uzmani` paylaşır.
+- **Shotstack MCP** — Video post-production (concat, captions, logo, music sync, template-based bulk varyant). `mt-creative-yonetmeni` kullanır.
 
 Phase 4'te eklenecekler:
 - Meta Marketing API
@@ -105,6 +108,22 @@ Phase 4'te eklenecekler:
 - Google Ads API
 
 Durum tablosu: `entegrasyonlar/kurulu-entegrasyonlar.md`.
+
+### 7.1 Creative Üretim Pipeline (Mimari)
+
+**Üç katmanlı sistem**:
+
+1. **Orkestrasyon (Claude — yani ben)**: Türkçe brief parse, EN prompt mühendisliği, copy formülü (PAS/AIDA/BAB), task-to-model seçimi, maliyet onayı, vision-based kalite kontrol
+2. **Üretim (fal.ai MCP)**: Raw asset üretimi (image, video, audio, upscale)
+3. **Post-production (Shotstack MCP)**: Concat, caption, logo overlay, music sync, bulk varyant rendering
+
+**Kritik kurallar**:
+- **Kullanıcı onayı olmadan üretim yok** — her brief öncesi maliyet + plan onayı
+- **Two-stage strategy** (default): FLUX Schnell ile draft varyantlar ($0.003 × N) → seçilen yön Pro modellerle final
+- **Kalite gate** (vision): Üretim sonrası 8 checklist puanlama, < 60/80 ise retry (max 2)
+- **Öğrenen sistem**: Beğenilen modeller `entegrasyonlar/fal-ai/favori-modeller.md`'ye eklenir, AI önce buraya bakar
+- **Maliyet kontrolü esnek**: Sabit limit yok, brief-bazlı bütçe; aylık tracking `entegrasyonlar/fal-ai/kullanim-istatistikleri.md`'de
+- **Sınırlar**: Bu pipeline brand-produced paid creative içindir. UGC creator brief → `mt-content-uretici`. App Store screenshot → `mt-aso-uzmani`. Paywall UI tasarımı → bu sistemin dışı, kullanıcının kendi işi.
 
 ---
 
