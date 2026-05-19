@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧭 MarketingTeam — Sistem Rehberi</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #e2e8f0;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  backdrop-filter: blur(10px);
+}
+header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; background: linear-gradient(120deg, #60a5fa, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+header p { color: #94a3b8; font-size: 1.1rem; }
+.phase-status { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+.phase-badge { padding: 0.4rem 0.9rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600; }
+.phase-badge.done { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+.phase-badge.active { background: rgba(251, 191, 36, 0.2); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); }
+.phase-badge.pending { background: rgba(148, 163, 184, 0.2); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.3); }
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.search-box {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+}
+.search-box input {
+  width: 100%;
+  padding: 0.85rem 1rem 0.85rem 2.8rem;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 12px;
+  color: #e2e8f0;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+.search-box input:focus { border-color: #60a5fa; }
+.search-box::before { content: "🔍"; position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); font-size: 1.1rem; }
+.filters { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.filter-btn {
+  padding: 0.7rem 1.2rem;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 10px;
+  color: #cbd5e1;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.filter-btn:hover { background: rgba(96, 165, 250, 0.15); border-color: #60a5fa; }
+.filter-btn.active { background: linear-gradient(120deg, #60a5fa, #a78bfa); border-color: transparent; color: #fff; }
+
+section { margin-bottom: 3rem; }
+section h2 { font-size: 1.5rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; color: #f1f5f9; }
+.section-counter { font-size: 0.85rem; background: rgba(96, 165, 250, 0.2); color: #60a5fa; padding: 0.2rem 0.7rem; border-radius: 999px; font-weight: 500; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 14px;
+  padding: 1.25rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.card:hover { transform: translateY(-2px); border-color: rgba(96, 165, 250, 0.5); box-shadow: 0 10px 30px rgba(96, 165, 250, 0.15); }
+.card.hidden { display: none; }
+.card-header { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.7rem; }
+.card-icon { font-size: 1.6rem; }
+.card-title { font-size: 1.05rem; font-weight: 600; color: #f1f5f9; }
+.card-type { display: inline-block; font-size: 0.7rem; padding: 0.15rem 0.6rem; border-radius: 999px; font-weight: 600; margin-left: auto; }
+.card-type.agent { background: rgba(96, 165, 250, 0.2); color: #60a5fa; }
+.card-type.skill { background: rgba(167, 139, 250, 0.2); color: #a78bfa; }
+.card-type.mcp { background: rgba(244, 114, 182, 0.2); color: #f472b6; }
+.card-desc { font-size: 0.9rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 0.8rem; }
+.card-meta { display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.8rem; color: #94a3b8; }
+.card-meta-row { display: flex; gap: 0.5rem; }
+.card-meta-row strong { color: #cbd5e1; min-width: 90px; }
+.card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.8rem;
+  color: #60a5fa;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+.status-active { background: #4ade80; }
+.status-pending { background: #fbbf24; }
+
+footer { text-align: center; margin-top: 3rem; padding: 1.5rem; color: #64748b; font-size: 0.85rem; border-top: 1px solid rgba(148, 163, 184, 0.1); }
+footer a { color: #60a5fa; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+.flow-diagram {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 14px;
+  padding: 1.5rem;
+  font-family: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #cbd5e1;
+  white-space: pre;
+  overflow-x: auto;
+}
+.flow-diagram .arrow { color: #60a5fa; }
+.flow-diagram .agent { color: #a78bfa; }
+
+/* MODAL */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  animation: fadeIn 0.2s ease;
+}
+.modal-backdrop.open { display: flex; align-items: flex-start; justify-content: center; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 16px;
+  max-width: 900px;
+  width: 100%;
+  padding: 2rem;
+  position: relative;
+  animation: slideUp 0.3s ease;
+  margin: auto;
+}
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(148, 163, 184, 0.1);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #e2e8f0;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+}
+.modal-close:hover { background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.5); }
+.modal-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; padding-right: 3rem; }
+.modal-icon { font-size: 2.5rem; }
+.modal-title { font-size: 1.7rem; font-weight: 700; color: #f1f5f9; }
+.modal-type { font-size: 0.75rem; padding: 0.2rem 0.7rem; border-radius: 999px; font-weight: 600; }
+.modal-type.agent { background: rgba(96, 165, 250, 0.2); color: #60a5fa; }
+.modal-type.skill { background: rgba(167, 139, 250, 0.2); color: #a78bfa; }
+.modal-type.mcp { background: rgba(244, 114, 182, 0.2); color: #f472b6; }
+.modal-tagline { color: #94a3b8; font-size: 1rem; margin-bottom: 1.5rem; line-height: 1.5; }
+
+.detail-section { margin-bottom: 1.5rem; }
+.detail-section h3 {
+  font-size: 1rem;
+  color: #60a5fa;
+  margin-bottom: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+.detail-section p, .detail-section ul, .detail-section ol { color: #cbd5e1; line-height: 1.65; font-size: 0.95rem; }
+.detail-section ul, .detail-section ol { padding-left: 1.5rem; }
+.detail-section li { margin-bottom: 0.4rem; }
+.detail-section li::marker { color: #60a5fa; }
+
+.mode-card {
+  background: rgba(96, 165, 250, 0.08);
+  border-left: 3px solid #60a5fa;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.6rem;
+  border-radius: 0 8px 8px 0;
+}
+.mode-card-name { font-weight: 600; color: #f1f5f9; margin-bottom: 0.3rem; font-size: 0.95rem; }
+.mode-card-desc { color: #cbd5e1; font-size: 0.88rem; line-height: 1.5; }
+
+.example-list {
+  list-style: none;
+  padding: 0;
+}
+.example-list li {
+  background: rgba(148, 163, 184, 0.08);
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 0.4rem;
+  border-radius: 8px;
+  font-family: 'SF Mono', 'Monaco', monospace;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  border-left: 2px solid rgba(96, 165, 250, 0.5);
+}
+
+.dont-list { list-style: none; padding: 0; }
+.dont-list li {
+  background: rgba(239, 68, 68, 0.08);
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 0.4rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #fca5a5;
+  border-left: 2px solid rgba(239, 68, 68, 0.5);
+}
+.dont-list li strong { color: #f87171; }
+.dont-list li code { background: rgba(239, 68, 68, 0.15); padding: 0.1rem 0.4rem; border-radius: 4px; }
+
+.test-list { list-style: none; padding: 0; }
+.test-list li {
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.3rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: 'SF Mono', 'Monaco', monospace;
+}
+.test-list li.pass { background: rgba(34, 197, 94, 0.08); color: #86efac; border-left: 2px solid #4ade80; }
+.test-list li.fail { background: rgba(239, 68, 68, 0.08); color: #fca5a5; border-left: 2px solid #f87171; }
+.test-list li.pass::before { content: "✓ "; font-weight: 700; }
+.test-list li.fail::before { content: "✗ "; font-weight: 700; }
+
+.file-tag {
+  display: inline-block;
+  background: rgba(34, 197, 94, 0.1);
+  color: #86efac;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-family: 'SF Mono', 'Monaco', monospace;
+  font-size: 0.8rem;
+  margin: 0.2rem 0.3rem 0.2rem 0;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.link-tag {
+  display: inline-block;
+  background: rgba(96, 165, 250, 0.1);
+  color: #93c5fd;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  margin: 0.2rem 0.3rem 0.2rem 0;
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  text-decoration: none;
+}
+.link-tag:hover { background: rgba(96, 165, 250, 0.25); }
+
+.modal-footer {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
+  flex-wrap: wrap;
+}
+.modal-footer a {
+  flex: 1;
+  min-width: 140px;
+  text-align: center;
+  padding: 0.7rem 1rem;
+  background: rgba(96, 165, 250, 0.15);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  border-radius: 10px;
+  color: #93c5fd;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.modal-footer a:hover { background: rgba(96, 165, 250, 0.25); }
+.modal-footer .invocation {
+  flex: 1;
+  background: rgba(167, 139, 250, 0.1);
+  color: #c4b5fd;
+  border-color: rgba(167, 139, 250, 0.3);
+  font-family: 'SF Mono', 'Monaco', monospace;
+}
+
+@media (max-width: 768px) {
+  .modal { padding: 1.5rem 1.2rem; margin: 1rem 0; }
+  .modal-title { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🧭 MarketingTeam — Sistem Rehberi</h1>
+    <p>Indie iOS App Marketing AI Takımı · 13 Ajan + 12 Skill + 5 MCP Entegrasyonu</p>
+    <div class="phase-status">
+      <span class="phase-badge done">✓ Phase 0 — İskelet</span>
+      <span class="phase-badge done">✓ Phase 1 — 13 Ajan</span>
+      <span class="phase-badge done">✓ Phase 2 — 12 Skill</span>
+      <span class="phase-badge pending">⏳ Phase 3 — Bilgi Bankası</span>
+      <span class="phase-badge active">⏳ Phase 4 — ASA hesap aç</span>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="search-box"><input type="text" id="search" placeholder="Ara: 'creative', 'rapor', 'API', 'ASO', 'rakip'..."></div>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">Hepsi</button>
+      <button class="filter-btn" data-filter="agent">Ajanlar</button>
+      <button class="filter-btn" data-filter="skill">Skill'ler</button>
+      <button class="filter-btn" data-filter="mcp">Entegrasyonlar</button>
+    </div>
+  </div>
+
+  <section><h2>🤖 Ajanlar <span class="section-counter">13</span></h2><div class="grid" id="agents-grid"></div></section>
+  <section><h2>⚡ Skill'ler <span class="section-counter">12</span></h2><div class="grid" id="skills-grid"></div></section>
+  <section><h2>🔌 Entegrasyonlar <span class="section-counter">5+</span></h2><div class="grid" id="mcp-grid"></div></section>
+
+  <section>
+    <h2>🔄 Akış Haritası</h2>
+    <div class="flow-diagram"><span class="agent">/mt-yeni-uygulama</span>
+   <span class="arrow">↓</span>
+projects/&lt;app&gt;/ yaratıldı
+   <span class="arrow">↓</span>
+<span class="agent">/mt-hesap-ac</span> (her platform için)
+   <span class="arrow">↓</span>
+<span class="agent">/mt-api-entegrasyon</span> (Phase 4)
+   <span class="arrow">↓</span>
+<span class="agent">/mt-butce-planla</span>
+   <span class="arrow">↓</span>
+<span class="agent">/mt-creative-uretim</span>
+   <span class="arrow">↓</span>
+<span class="agent">/mt-yeni-kampanya</span>
+   <span class="arrow">↓</span>
+Kampanya CANLI 🎉
+   <span class="arrow">↓</span>
+(haftalık) <span class="agent">/mt-haftalik-rapor</span>
+   <span class="arrow">↓</span>
+(aylık) <span class="agent">/mt-aylik-strateji</span></div>
+  </section>
+
+  <footer>
+    Son güncelleme: 2026-05-19 ·
+    <a href="SISTEM-REHBERI.md">Markdown versiyon</a> ·
+    <a href="CLAUDE.md">CLAUDE.md</a> ·
+    <a href="TETIKLEME-SOZLESMESI.md">Tetikleme Sözleşmesi</a> ·
+    <a href="ROADMAP.md">Roadmap</a>
+  </footer>
+</div>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modal-close">×</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const AGENTS = [
+{
+  name: "mt-marketing-tutor", icon: "📚", invocation: "@mt-marketing-tutor", skill: "/mt-terim-ogren",
+  memory: "marketing_known_terms.md, marketing_learning_style.md", mcp: "—",
+  shortDesc: "App marketing kavramlarını sıfırdan örnekle açıklar, SOZLUK.md'ye ekler.",
+  tagline: "Sıfırdan başlayan indie iOS developer'a marketing kavramlarını organik diyalog ile öğreten ajan.",
+  whatItDoes: "Bir terimi gördüğünde otomatik olarak ya da kullanıcı sorduğunda format gözeterek açıklar. Format: <strong>KISALTMA — Full English Name — Türkçe karşılık — Detay — Örnek — İlgili kavramlar — Sık karıştırılır</strong>. Üst üste binerek anlatır, kullanıcının anlama düzeyini takip eder, SOZLUK.md'ye alfabetik kaydeder.",
+  modes: [
+    { name: "Tek terim açıklama", desc: "'CPI nedir?' tarzı net sorular için tam format çıktı." },
+    { name: "Karşılaştırma", desc: "'ROAS vs LTV' gibi iki kavram arasındaki farkı açıklar." },
+    { name: "Akıştan geçen mini-açıklama", desc: "Başka ajan cevap verirken çıkan kısaltma için kısa parantez içi tanım." }
+  ],
+  whenToCall: ["CPI nedir?", "ROAS ile LTV farkı?", "Cohort analizi ne demek?", "AEM açılımı nedir?", "Şu az önce öğrendiğim ROAS'ı biraz daha açar mısın?"],
+  whenNotToCall: [
+    { q: "CPI'ım çok yüksek, ne yapmalıyım?", a: "mt-kampanya-analisti (operasyonel karar)" },
+    { q: "Hangi ROAS hedefim olmalı?", a: "mt-strateji-uzmani (KPI hedef belirleme)" },
+    { q: "Meta'da nasıl kampanya açarım?", a: "mt-meta-ads-uzmani (operasyonel kurulum)" }
+  ],
+  defaults: ["İlk-kez görünen kısaltmalar parantezde mini-tanımla yumuşatılır", "Kullanıcı 'anlamadım' derse otomatik tetiklenir", "Her yeni terim SOZLUK.md'ye alfabetik eklenir"],
+  limits: ["Operasyonel karar vermez (CPI'ım yüksek ne yapayım → analisti)", "Strateji hedefi belirlemez (hedef ROAS ne olmalı → strateji-uzmani)", "Platform kurulumu yapmaz (Meta'da kampanya → meta-ads-uzmani)"],
+  testSentences: [
+    { s: "CPI nedir?", expect: true },
+    { s: "Meta'da nasıl kampanya açarım?", expect: false }
+  ]
+},
+{
+  name: "mt-hesap-kurulum-rehberi", icon: "🔐", invocation: "@mt-hesap-kurulum-rehberi", skill: "/mt-hesap-ac",
+  memory: "marketing_account_setup_state.md, marketing_user_profile_tr.md", mcp: "—",
+  shortDesc: "Meta/TikTok/ASA/Google'a sıfırdan hesap açma akışı. TR-bireysel profili. Devam edilebilir.",
+  tagline: "Reklam platformlarına insan-kayıt sürecini (e-posta, TCKN, kart, vergi, business manager) adım adım yöneten ajan.",
+  whatItDoes: "Türkiye'de SGK'lı bireysel iOS developer (Umut) profiline özel olarak rehberlik yapar. Şahıs şirketi yok, Apple Developer bireysel hesap. Her platform için <code>hesap-kurulumlari/&lt;platform&gt;/durum.md</code>'ye ilerleme yazar, yarıda kalan kurulumu kaldığı yerden devam ettirir. Hassas bilgiler (TCKN, kart, parola) ASLA MD'ye yazılmaz — kullanıcı parola yöneticisine yönlendirilir.",
+  modes: [
+    { name: "Mod A — Yeni hesap (sıfırdan)", desc: "Ön gereksinim kontrol → e-posta seçimi → işletme bilgisi → vergi → ödeme → business manager → ad account verification" },
+    { name: "Mod B — Yarıda kalmış kurulum devam", desc: "durum.md okur, kalınan adımdan devam eder" }
+  ],
+  whenToCall: ["Meta'da hesap açmak istiyorum", "TikTok for Business kurmak istiyorum", "Apple Search Ads'e nasıl kayıt olunur?", "Meta hesap kurulumunda kalmıştık devam edelim", "Meta hesabım askıya alındı, recovery"],
+  whenNotToCall: [
+    { q: "Meta API token nasıl alırım?", a: "mt-entegrasyon-kurucu (programatik erişim)" },
+    { q: "Meta'da Advantage+ kampanya açmak istiyorum", a: "mt-meta-ads-uzmani (hesap açıldıktan sonra)" },
+    { q: "Şahıs şirketi açayım mı?", a: "Reddedilir — mali müşavire yönlendirilir" }
+  ],
+  defaults: ["TR-bireysel profili: TCKN, Türkiye banka kartı, şahıs şirketi yok", "Apple Developer: bireysel hesap (şirket değil)", "Hassas bilgi MD'ye yazılmaz, parola yöneticisi önerilir", "Her adım durum.md'ye kayıt"],
+  limits: ["Hukuki/mali karar vermez (vergi sınıfı, şirket açma → muhasebeci)", "API token kurmaz → mt-entegrasyon-kurucu", "Kampanya açmaz → ilgili platform ajan"],
+  testSentences: [
+    { s: "Meta'da hesap açmak istiyorum", expect: true },
+    { s: "Meta API token nasıl alırım?", expect: false }
+  ]
+},
+{
+  name: "mt-paid-ua-uzmani", icon: "🧭", invocation: "@mt-paid-ua-uzmani", skill: "(doğrudan)",
+  memory: "marketing_paid_ua_decisions.md", mcp: "—",
+  shortDesc: "Paid UA stratejik beyni — kanal seçimi, mix mantığı, funnel, scale çerçevesi.",
+  tagline: "Platform uzmanlarının üstündeki stratejik katman — 'hangi kanal, hangi sırada, hangi mantıkla' kararlarını verir.",
+  whatItDoes: "Tarafsız stratejik karar verir, sonra ilgili platform uzmanına (Meta/TikTok/ASA/Google) devreder. Para ve KPI üzerinde değil — <strong>yön</strong> üzerinde çalışır. Default opinion'lara sahip (ASA→Meta→TikTok→Google sıralaması subscription app için). Çoğunlukla yeni uygulamanın ilk paid stratejisi için çağrılır.",
+  modes: [
+    { name: "Kanal seçim / mix kararı", desc: "Hangi kanaldan başlamalı? Eş zamanlı kaç kanal? Test → scale mantığı" },
+    { name: "Funnel haritası", desc: "Awareness → install → activation → retention → revenue zincirinde hangi noktada hangi kanal kullanılır" },
+    { name: "iOS attribution gerçekliği", desc: "SKAN/AEM modeled conversion etkisi, hangi platformda hangi attribution kalitesi" }
+  ],
+  whenToCall: ["Yeni app için hangi kanaldan başlamalıyım?", "Subscription app için kanal önerin?", "iOS'ta retargeting yapılabilir mi?", "ASA mı Meta mı önce?", "Kanal mix nasıl olmalı?"],
+  whenNotToCall: [
+    { q: "Bu ay $500'ümü nasıl bölmeli?", a: "mt-strateji-uzmani (para/KPI)" },
+    { q: "Meta'da AAC kampanya açalım", a: "mt-meta-ads-uzmani (platform setup)" },
+    { q: "Kampanyam ROI üretmiyor", a: "mt-kampanya-analisti (data)" }
+  ],
+  defaults: ["Subscription app için sıra: ASA → Meta → TikTok → Google", "IAP/utility için: TikTok+Meta öncelik, ASA brand", "Free+ads için: Google AC + TikTok", "Tutucu WebSearch (sadece güncel değişim için)"],
+  limits: ["Bütçe miktarı belirlemez → mt-strateji-uzmani", "Platform UI'da iş yapmaz → ilgili ajan", "Performans okumaz → mt-kampanya-analisti"],
+  testSentences: [
+    { s: "Hangi reklam platformundan başlamalıyım?", expect: true },
+    { s: "Bu ay $500'ümü nasıl bölmeli?", expect: false }
+  ]
+},
+{
+  name: "mt-meta-ads-uzmani", icon: "📱", invocation: "@mt-meta-ads-uzmani", skill: "/mt-yeni-kampanya",
+  memory: "marketing_meta_setup_state.md", mcp: "—",
+  shortDesc: "Meta (FB+IG) operasyonel — AAC, AEM, SKAN, CAPI, audience, creative spec.",
+  tagline: "Meta Ads Manager'ın operasyonel uzmanı. iOS-first çalışır, AAC default önerir.",
+  whatItDoes: "Meta UI'ında <strong>hangi butona bas, hangi alana ne yaz, hangi setting seç</strong> — sen anlatır/birlikte yaparsın. iOS 14.5+ kurallarına göre default: AAC (Advantage+ App Campaign) + Advantage+ Audience + CBO + Lowest cost. AEM 9 event prioritization, SKAN postback, CAPI integration, Domain verification — hepsi.",
+  modes: [
+    { name: "Mod A — Setup (yeni kampanya)", desc: "Önkoşul kontrol (BM, SDK, pixel, domain, CAPI) → kampanya tasarımı → AEM event mapping → SKAN setup → creative brief → çıktı dosya" },
+    { name: "Mod B — Operasyonel optimizasyon", desc: "Mevcut kampanyayı revize (audience, creative refresh, bidding değişimi). Veri analizi gerekirse mt-kampanya-analisti'ne devir." }
+  ],
+  whenToCall: ["Meta'da AAC kampanyası nasıl kurarım?", "AEM 9 event nasıl önceliklendirilir?", "Conversion API setup'ı nasıl?", "Domain verification yapamadım", "Advantage+ Audience mi Custom mı?", "Modeled conversion neden 48 saat gecikti?"],
+  whenNotToCall: [
+    { q: "Meta'da hesap nasıl açarım?", a: "mt-hesap-kurulum-rehberi" },
+    { q: "Meta'ya başlamalı mıyım?", a: "mt-paid-ua-uzmani (strateji)" },
+    { q: "Meta'da ROAS düştü, scale edebilir miyim?", a: "mt-kampanya-analisti (data)" },
+    { q: "Meta için Reels videosu üret", a: "mt-creative-yonetmeni" }
+  ],
+  defaults: ["Kampanya tipi: AAC (Advantage+ App Campaign)", "Audience: Advantage+ Audience (Meta otomatik bulsun)", "Bütçe: CBO", "Bidding: Lowest cost", "Creative: 1 Reels 9:16 zorunlu + Stories + Feed 4:5", "iOS-only (Android konusu açılırsa not düş, geri iOS)"],
+  limits: ["Veri okumaz / scale demez → mt-kampanya-analisti", "Bütçe miktarı belirlemez → mt-strateji-uzmani", "Hesap açmaz → mt-hesap-kurulum-rehberi", "Creative üretmez → mt-creative-yonetmeni", "Android'e girmez (iOS-only)"],
+  testSentences: [
+    { s: "Meta'da AAC kampanyası kurmak istiyorum", expect: true },
+    { s: "Meta'da hesap nasıl açarım?", expect: false }
+  ]
+},
+{
+  name: "mt-tiktok-ads-uzmani", icon: "🎵", invocation: "@mt-tiktok-ads-uzmani", skill: "/mt-yeni-kampanya",
+  memory: "marketing_tiktok_setup_state.md", mcp: "—",
+  shortDesc: "TikTok Ads Manager — SPC, Spark Ads, AEO, Events API, hashtag/creator targeting.",
+  tagline: "TikTok'a özel operasyonel uzman. Default SPC + Spark Ads kombinasyonu. iOS-first.",
+  whatItDoes: "TikTok'un kendine özel dünyası var: Spark Ads (creator post'unu reklam olarak boost), AEO (1-3 priority event, Meta AEM'den farklı), Events API, hashtag/creator targeting. Default kombinasyon: <strong>SPC (Smart Performance Campaign) + Spark Ads</strong>. Standard Ads sadece UGC creator yoksa veya yeni mesaj testinde. Kullanıcı creator outreach yapmıyor → AI-UGC tarzı brief mt-creative-yonetmeni'ne yönlendirilir.",
+  modes: [
+    { name: "Mod A — Setup", desc: "Önkoşul kontrol → SPC + Spark Ads veya Standard Ads → AEO priority event → SKAN postback → creative bağlama (Spark Code veya brand video brief)" },
+    { name: "Mod B — Operasyonel optimizasyon", desc: "Yeni Spark Code ekle, AEO event değişimi, audience genişletme/daraltma" }
+  ],
+  whenToCall: ["TikTok'ta SPC kampanyası kuracağım", "Spark Ads bağlamayı bilmiyorum", "AEO'da hangi event'ı priority yapayım?", "TikTok Events API setup'ı?", "Spark Code'u nereye giriyorum?"],
+  whenNotToCall: [
+    { q: "TikTok'ta hesap nasıl açarım?", a: "mt-hesap-kurulum-rehberi" },
+    { q: "TikTok için UGC creator bul", a: "Bu sistem dışı — AI-UGC önerilir → mt-creative-yonetmeni" },
+    { q: "TikTok için video script yaz", a: "mt-creative-yonetmeni" }
+  ],
+  defaults: ["Kampanya tipi: SPC (Smart Performance Campaign)", "Creative: Spark Ads (UGC tarzı) + AI-UGC alternatifi (kullanıcı creator yola gitmiyor)", "Audience: SPC otomatik", "Bidding: Lowest cost", "Creative kuralları: 9:16, sound-on, native feel, hand-held aesthetic"],
+  limits: ["Creator outreach yapmaz (kullanıcı bu yola gitmiyor)", "Creative üretmez → mt-creative-yonetmeni (AI-UGC veya brand-produced)", "Veri okumaz → mt-kampanya-analisti"],
+  testSentences: [
+    { s: "TikTok'ta SPC kampanyası kurmak istiyorum", expect: true },
+    { s: "TikTok için video script yaz", expect: false }
+  ]
+},
+{
+  name: "mt-apple-search-ads-uzmani", icon: "🍎", invocation: "@mt-apple-search-ads-uzmani", skill: "/mt-yeni-kampanya",
+  memory: "marketing_asa_setup_state.md", mcp: "—",
+  shortDesc: "ASA — keyword strateji, 4 campaign türü, Search Match, negative keywords, CPP bağlama.",
+  tagline: "Indie iOS dev için en yüksek ROAS potansiyeli olan kanal. Privacy-friendly attribution, search-intent kitle.",
+  whatItDoes: "<strong>Default: ASA Advanced</strong>. 3 kampanya minimal başlangıç (Brand + Category + Discovery). Search Match, Negative Keywords, Match Type (Exact/Broad), CPT bidding. CPP (Custom Product Pages) bağlama — yaratma mt-aso-uzmani'nin işi. TR market özel notu: rekabet düşük, $0.20-0.50 CPI fırsatı.",
+  modes: [
+    { name: "Mod A — Setup", desc: "Önkoşul kontrol (Apple Developer + AdServices framework) → kampanya tasarımı (Brand + Category + Discovery) → keyword research → match type → bidding → CPP bağlama" },
+    { name: "Mod B — Operasyonel optimizasyon", desc: "Search Terms Report inceleme, bid ayarı, negative keyword ekleme, keyword promotion (Discovery → Category)" }
+  ],
+  whenToCall: ["ASA'da Brand Campaign kurmak istiyorum", "Search Match açayım mı?", "Negative keyword nasıl eklenir?", "Discovery Campaign nedir?", "Exact mi Broad mi?", "CPP'i ASA kampanyasına nasıl bağlarım?"],
+  whenNotToCall: [
+    { q: "ASA'ya nasıl kayıt olunur?", a: "mt-hesap-kurulum-rehberi" },
+    { q: "Custom Product Page yaratmak istiyorum", a: "mt-aso-uzmani (CPP yaratma)" },
+    { q: "App Store title optimize", a: "mt-aso-uzmani" }
+  ],
+  defaults: ["Versiyon: ASA Advanced", "Kampanya yapısı: Brand (Exact, Search Match OFF) + Category (Exact + Broad ayrı) + Discovery (Search Match ON)", "Audience: New users only", "Storefront: TR + US ayrı kampanyalar", "TR market: $0.20-0.50 CPI hedef"],
+  limits: ["CPP yaratma → mt-aso-uzmani (App Store Connect)", "App Store listing → mt-aso-uzmani", "API entegrasyon → mt-entegrasyon-kurucu"],
+  testSentences: [
+    { s: "ASA'da Brand Campaign kurmak istiyorum", expect: true },
+    { s: "Custom Product Page yaratmak istiyorum", expect: false }
+  ]
+},
+{
+  name: "mt-google-ads-uzmani", icon: "🔍", invocation: "@mt-google-ads-uzmani", skill: "/mt-yeni-kampanya",
+  memory: "marketing_google_ads_setup_state.md", mcp: "—",
+  shortDesc: "Google AC — Firebase event mapping, Target CPI→tCPA→tROAS, asset library, developer handoff MD.",
+  tagline: "Google App Campaigns operasyonel uzmanı. iOS-first. Geliştirici için Firebase event handoff MD üretir.",
+  whatItDoes: "Multi-network (Search + Play + YouTube + Display) tek kampanya. <strong>Default: AC for Installs</strong>. Bidding evolution: Target CPI → tCPA (50+ conversion sonrası) → tROAS (100+ revenue data sonrası). Asset library: 5 headline + 5 description + 5 image + 5 video minimum. <strong>Özel yetenek: Developer handoff MD üretir</strong> — Firebase event'ları kodda nasıl tanımlanmalı, başka bir AI okuyup direkt uygulayabilsin.",
+  modes: [
+    { name: "Mod A — Setup", desc: "Önkoşul kontrol (Firebase SDK, project link) → AC for Installs → Target CPI → asset library → SKAN → conversion action linkleme" },
+    { name: "Mod B — Operasyonel optimizasyon", desc: "Asset rotation, bidding evrim (CPI→tCPA→tROAS), conversion action revize" },
+    { name: "Mod C — Developer Handoff MD üretimi", desc: "Geliştiriciye Firebase event tanımlama direktifi. Kod örnekleri, test prosedürü, validation kontrolleri." }
+  ],
+  whenToCall: ["Google AC for Installs kuracağım", "Firebase event'larını Google Ads'e bağlamak", "Target CPI'dan tCPA'ya geçiş", "Asset library kaç asset?", "Geliştirici için Firebase event listesi çıkar"],
+  whenNotToCall: [
+    { q: "Google Ads hesabı aç", a: "mt-hesap-kurulum-rehberi" },
+    { q: "Firebase SDK kodu kurulumu", a: "mt-entegrasyon-kurucu veya developer" },
+    { q: "Google için video üret", a: "mt-creative-yonetmeni" }
+  ],
+  defaults: ["Kampanya tipi: AC for Installs (Engagement Phase 2)", "Bidding sıra: Target CPI → tCPA (50+ conversion) → tROAS (100+ revenue)", "Asset: 5+5+5+5 minimum + opsiyonel HTML5", "iOS-only, Android'e girmez"],
+  limits: ["Firebase SDK kurmaz / event kodu yazmaz — handoff MD üretir", "Brand creative üretmez → mt-creative-yonetmeni", "Google Ads API → mt-entegrasyon-kurucu"],
+  testSentences: [
+    { s: "Google AC for Installs kuracağım", expect: true },
+    { s: "Firebase SDK kodu nasıl kurulur?", expect: false }
+  ]
+},
+{
+  name: "mt-creative-yonetmeni", icon: "🎨", invocation: "@mt-creative-yonetmeni", skill: "/mt-creative-uretim",
+  memory: "marketing_creative_state.md", mcp: "fal.ai + Shotstack",
+  shortDesc: "Brand-produced + AI-UGC paid creative üretim. fal.ai + Shotstack + Claude vision.",
+  tagline: "Sistemdeki tek üretim ajanı — gerçek dosya çıktısı verir. 3 katmanlı pipeline: Claude (orkestrasyon) + fal.ai (üretim) + Shotstack (post-prod).",
+  whatItDoes: "Reklam görseli, video, ad copy, paywall hero, hook, A/B test varyantı. <strong>Two-stage strategy default</strong>: FLUX Schnell ile 10 draft varyant ($0.03) → seçilen yön Pro modellerle final ($0.15-0.42). Vision-based <strong>8-checklist kalite gate</strong> (skor < 60/80 ise retry). Öğrenen sistem: <code>entegrasyonlar/fal-ai/favori-modeller.md</code>'ye kullanıcının beğendiği modeller eklenir.",
+  modes: [
+    { name: "Mod A — Brief → Üretim (image/video)", desc: "13 adımlı pipeline: brief parse → library tarama → task tipi → model seçimi → prompt mühendisliği → maliyet onayı → üretim → vision kalite gate → post-prod → kayıt" },
+    { name: "Mod B — Copy Üretim", desc: "Hook, headline, description, CTA. App tipine göre formül (PAS / AIDA / BAB / 4Ps). 3-5 varyant." },
+    { name: "Mod C — A/B Test Seti", desc: "3 varyant default, 5 opsiyonel. Hook + görsel tarz + social proof boyutlarında farklılaşır. Shotstack template + merge fields ile bulk render." },
+    { name: "Mod D — Revizyon", desc: "Mevcut asset'i image edit modeliyle revize. Eskisi _arsiv/'e taşınır." },
+    { name: "Mod E — Trend Research", desc: "TikTok Creative Center + Meta Ad Library + Google Trends taraması. Üretim yapmaz, sonraki creative brief'lerine girdi olur." }
+  ],
+  whenToCall: ["Reels reklamı için video üret", "5 image varyantı, A/B test için", "Hook copy yaz, problem-first", "Mevcut creative revizyon, logo büyüsün", "Shotstack ile outro ekle", "Paywall hero görseli", "Bu hafta TikTok'ta hangi trend var?"],
+  whenNotToCall: [
+    { q: "TikTok için UGC creator bul", a: "Bu sistem dışı — AI-UGC üretim önerilir (bu ajan yapar)" },
+    { q: "App Store screenshot tasarla", a: "mt-aso-uzmani" },
+    { q: "Hangi creative scale edilmeli?", a: "mt-kampanya-analisti (data)" },
+    { q: "Paywall UI tasarla", a: "Bu sistem dışı (kullanıcı kendi)" }
+  ],
+  defaults: ["Two-stage strategy (Schnell → Pro)", "Vision kalite gate 8 checklist, max 2 retry", "Öğrenen model seçimi (favori-modeller.md)", "Her üretim öncesi kullanıcı onayı zorunlu", "Maliyet kontrolü esnek (sabit limit yok)"],
+  limits: ["Strateji vermez → mt-paid-ua-uzmani / mt-strateji-uzmani", "Performans yorumlamaz → mt-kampanya-analisti", "Platform UI setup'ı yapmaz → ilgili platform ajan", "App Store screenshot → mt-aso-uzmani", "Paywall UI → bu sistem dışı", "UGC creator outreach → bu sistem dışı"],
+  testSentences: [
+    { s: "Reels reklamı için video üret", expect: true },
+    { s: "App Store screenshot tasarla", expect: false }
+  ]
+},
+{
+  name: "mt-strateji-uzmani", icon: "💰", invocation: "@mt-strateji-uzmani", skill: "/mt-butce-planla, /mt-aylik-strateji",
+  memory: "marketing_strategy_state.md", mcp: "—",
+  shortDesc: "Aylık plan + bütçe allocation + KPI hedef belirleme. Haftalık checkpoint'ler tanımlar.",
+  tagline: "Para + KPI boyutunda strateji. mt-paid-ua-uzmani 'hangi kanal' der; bu ajan 'hangi kanala kaç para, hangi KPI = başarı' der.",
+  whatItDoes: "Aylık marketing planı (haftalık checkpoint'lerle), bütçeyi uygulamalar × kanallar arasında dağıtma, yüksek seviye hedef → kampanya bazlı alt-KPI'lara çevirme. <strong>Haftalık checkpoint'ler kritik</strong>: her hafta için yeşil/sarı/kırmızı ışık eşikleri tanımlar, mt-kampanya-analisti bunlara göre haftalık raporu yazar.",
+  modes: [
+    { name: "Mod A — Plan Üretimi", desc: "Aylık default (üç aylık opsiyonel). Hedef → allocation → 4 haftalık checkpoint + eşikler → erken revize tetikleyicileri" },
+    { name: "Mod B — Bütçe Allocation (rebalance)", desc: "Performansa göre kazanan kanallara bütçe kaydır, zayıfları kes" },
+    { name: "Mod C — KPI Hedef Belirleme", desc: "Yüksek seviye hedef ('D30 ROAS > 1.2') → alt-KPI'lara (Target CPI, payback period, retention) çevir" }
+  ],
+  whenToCall: ["Bu ay $500'ümü nasıl bölmeli?", "Haziran ayı planı yazalım, hedef D30 ROAS 1.2", "Target CPI ne olmalı, LTV $30", "Üç aylık plan", "Bütçe rebalance"],
+  whenNotToCall: [
+    { q: "Hangi kanaldan başlamalıyım?", a: "mt-paid-ua-uzmani (yön)" },
+    { q: "Geçen hafta kampanyalar nasıl?", a: "mt-kampanya-analisti (geriye dönük)" },
+    { q: "Meta'da AAC nasıl kurulur?", a: "mt-meta-ads-uzmani" }
+  ],
+  defaults: ["Aylık periyot (3 aylık opsiyonel)", "Bütçe 3 katmanlı hibrit (memory + butce/ + kullanıcı sorgu)", "Default KPI: Subscription D7 ROAS 0.5, D30 1.2, payback 120 gün", "Target CPI = LTV / 5-10", "Haftalık checkpoint'ler (yeşil/sarı/kırmızı eşik)"],
+  limits: ["Kanal seçimi yapmaz → mt-paid-ua-uzmani", "Veri analiz / scale karar → mt-kampanya-analisti", "Platform setup → ilgili ajan"],
+  testSentences: [
+    { s: "Bu ay $500'ümü nasıl bölmeli?", expect: true },
+    { s: "Hangi kanaldan başlamalıyım?", expect: false }
+  ]
+},
+{
+  name: "mt-kampanya-analisti", icon: "📊", invocation: "@mt-kampanya-analisti", skill: "/mt-haftalik-rapor, /mt-revenuecat-ozet, /mt-aylik-strateji",
+  memory: "marketing_analytics_state.md", mcp: "RevenueCat",
+  shortDesc: "Performans analizi — ikili öneri (yön + rakam), büyük sapmada otomatik strateji çağırma.",
+  tagline: "Operasyonel veri analisti. Sayı odaklı çalışır — strateji yazmaz, UI'da iş yapmaz, sadece veriyi okur ve aksiyon önerir.",
+  whatItDoes: "RevenueCat MCP + Phase 4'te platform API'lar + manuel CSV → KPI hesaplar (CPI, CPM, CTR, CR, CPA, ROAS, D1/D7/D30 retention, LTV, payback). mt-strateji-uzmani'nin haftalık checkpoint'lerine bakar, sapmaları raporlar. <strong>İkili öneri zorunlu</strong>: hem yön (kes / devam / scale / refresh) hem spesifik rakam ('bütçe +%30 = $X', 'audience 18-34 → 18-45'). <strong>Büyük sapmada (%30+) otomatik mt-strateji-uzmani çağırır</strong> — sebebi açıklayarak.",
+  modes: [
+    { name: "Mod A — Haftalık Rapor", desc: "Veri toplama → KPI hesap → plan vs gerçek → aksiyon listesi → çıktı raporlar/<tarih>-haftalik.md" },
+    { name: "Mod B — Spike/Drop Anomali", desc: "'ROAS düştü neden' tarzı sorularda sebep adayları (creative fatigue, audience tükenme, attribution gecikme)" },
+    { name: "Mod C — Kes/Devam/Scale Kararı", desc: "Karar matrisi: learning phase mi, ROAS hedef vs gerçek, frequency, cohort başarı" },
+    { name: "Mod D — Cohort Analizi", desc: "Subscription cohort: D1, D7, D30, D90 retention + LTV. Paid vs organic cohort karşılaştırma." },
+    { name: "Mod E — Aylık Retrospektif", desc: "Ay sonu: plan vs gerçek, kazanan/kaybeden kampanyalar, öğrenilenler. mt-strateji-uzmani'ne devir." }
+  ],
+  whenToCall: ["Bu hafta nasıl gitti?", "ROAS düştü neden?", "Şu kampanyayı kessem mi?", "Scale edebilir miyim?", "Mayıs cohort analizi", "Mayıs retrospektif"],
+  whenNotToCall: [
+    { q: "Aylık plan yazalım", a: "mt-strateji-uzmani (ileriye dönük)" },
+    { q: "Meta'da yeni kampanya kur", a: "mt-meta-ads-uzmani (operasyonel)" },
+    { q: "Hangi kanaldan başla", a: "mt-paid-ua-uzmani" }
+  ],
+  defaults: ["İkili öneri zorunlu (yön + spesifik rakam)", "Büyük sapma (%30+) → otomatik mt-strateji-uzmani çağırma + neden bildirme", "Veri kaynağı önceliği: RevenueCat → raporlar/ → kullanıcı manuel", "Yeşil/sarı/kırmızı ışık çerçevesi"],
+  limits: ["Strateji yazmaz / kampanya kurmaz / creative üretmez", "Platform UI'da değişiklik önerir, kendi uygulamaz"],
+  testSentences: [
+    { s: "Bu hafta kampanyalar nasıl?", expect: true },
+    { s: "Aylık plan yazalım", expect: false }
+  ]
+},
+{
+  name: "mt-rakip-arastirmaci", icon: "🔭", invocation: "@mt-rakip-arastirmaci", skill: "/mt-rakip-analizi",
+  memory: "marketing_competitor_state.md", mcp: "— (Phase 4+ ASO tool MCP)",
+  shortDesc: "Rakip analiz (App Store + Ad Library + Creative Center + Transparency + reviews). Basit hali.",
+  tagline: "Public veri kaynakları ile rakip uygulamaları derinlemesine analiz eder. Phase 4+ ASO tool MCP ile güçlendirilecek.",
+  whatItDoes: "Rakip uygulamayı 6 boyutta tarar: <strong>ASO listing</strong> (title/subtitle/keywords/screenshots), <strong>Pricing</strong> (IAP, subscription, TR/US fark), <strong>Paywall akışı</strong> (screenshot inceleme), <strong>Ad Library</strong> (Meta + TikTok + Google), <strong>Review trendleri</strong>, <strong>Tahmini download/revenue</strong> (public Sensor Tower). Yapılandırılmış rapor üretir, diğer ajanlar bu raporları input olarak kullanır.",
+  modes: [
+    { name: "Mod A — Tek Rakip Derinlemesine", desc: "Bir rakip için 6 boyutta tam analiz + 'bizim için öğretiler' bölümü" },
+    { name: "Mod B — Kategori Benchmark", desc: "3-5 rakip karşılaştırma tablosu + ortak trendler + aykırı oyuncular" },
+    { name: "Mod C — Yön Bazlı Analiz", desc: "Sadece paywall / pricing / ad / review — hızlı dar kapsam" },
+    { name: "Mod D — Güncelleme Takibi", desc: "'X yeni güncelleme yapmış' — pivot/strateji değişimi tespit" }
+  ],
+  whenToCall: ["Streaks app'i analiz et", "Habit tracker kategorisinde rakipler", "Calm paywall'una bak", "TikTok'ta finance app reklamları", "Habitica son güncellemede ne değişti?"],
+  whenNotToCall: [
+    { q: "Kendi ASO'mu denetle", a: "mt-aso-uzmani" },
+    { q: "Rakip creative'ini taklit et üret", a: "mt-creative-yonetmeni (raporu input alır)" },
+    { q: "Pricing değişimi", a: "mt-strateji-uzmani" }
+  ],
+  defaults: ["Public kaynaklar (App Store + Ad Library + Creative Center + Transparency + reviews)", "TR + US default storefront", "WebSearch + WebFetch ana araç", "Yapılandırılmış rapor şablonu (her rakipte aynı format)"],
+  limits: ["Şu an basit hali — Phase 4+ ASO tool MCP ile güçlendirilecek (AppTweak vb. abone olununca)", "Kendi ASO denetimi yapmaz → mt-aso-uzmani", "Creative üretmez → mt-creative-yonetmeni"],
+  testSentences: [
+    { s: "Streaks app'i analiz et", expect: true },
+    { s: "Kendi ASO'mu denetle", expect: false }
+  ]
+},
+{
+  name: "mt-aso-uzmani", icon: "🏪", invocation: "@mt-aso-uzmani", skill: "/mt-aso-audit",
+  memory: "marketing_aso_state.md", mcp: "fal.ai (Ideogram)",
+  shortDesc: "ASO — 10 boyutlu audit (aylık), keyword research, screenshot brief, CPP, agresif rating.",
+  tagline: "App Store Optimization uzmanı. İnce ayar + veri akışı + CRO odaklı. Kullanıcı temellerini zaten yapıyor.",
+  whatItDoes: "Mevcut App Store listing'i 10 boyutta tarar (title/subtitle/keywords/description/screenshots/ikon/preview/localization/rating/reviews), 100 üzerinden skor verir, öncelikli iyileştirme listesi çıkarır. <strong>GB-first localization</strong> (GB → US → TR → diğer, mümkün olduğunca fazla). <strong>Agresif rating stratejisi</strong> (yılda 3 prompt limitini kullan). Screenshot tarz kütüphanesi (kullanıcı örnek atacak, izinli iddialar: #1, ödül, social proof).",
+  modes: [
+    { name: "Mod A — Audit (aylık)", desc: "10 boyutlu denetim, /100 skor, top 5 iyileştirme. Çıktı: projects/<app>/05-aso-stratejisi.md" },
+    { name: "Mod B — Keyword Research", desc: "Brand + generic + long-tail, Türkçe karakter dikkati, 100 char keywords field optimize" },
+    { name: "Mod C — Screenshot + Preview Video", desc: "Akış: hero → feature → social proof → paywall hint → CTA. Brief mt-creative-yonetmeni'ne (Ideogram V3 zorunlu)" },
+    { name: "Mod D — Custom Product Pages (CPP)", desc: "1-5 CPP yaratma rehberi (App Store Connect UI). Bağlama mt-apple-search-ads-uzmani'ne devir." },
+    { name: "Mod E — Localization", desc: "GB → US → TR → diğer. Her dil için ayrı title/subtitle/keywords optimize." },
+    { name: "Mod F — Rating & Review (AGRESİF)", desc: "Multi-trigger (yılda 3 prompt), pre-filter UX, negative review reply template (24-48 saat hedef)" }
+  ],
+  whenToCall: ["ASO denetimi yap", "Keyword optimize", "Screenshot başlıkları öner", "CPP yaratalım", "Negatif review reply", "App Store ikon önerisi"],
+  whenNotToCall: [
+    { q: "ASA kampanyası kur", a: "mt-apple-search-ads-uzmani" },
+    { q: "Paid reklam görseli üret", a: "mt-creative-yonetmeni" },
+    { q: "Rakip ASO analiz", a: "mt-rakip-arastirmaci" },
+    { q: "Keyword nedir?", a: "mt-marketing-tutor" }
+  ],
+  defaults: ["Audit periyodu: AYLIK", "Localization öncelik: GB → US → TR → diğer (mümkün olduğunca fazla)", "Rating: AGRESİF (yılda 3 prompt limitini kullan)", "Screenshot: izinli iddia kütüphanesi (#1, ödül, social proof, '4.8★', 'As featured in...')", "Apple yasakları: yanlış sağlık iddiası, garantili sonuç, rakip karşılaştırma"],
+  limits: ["CPP bağlama → mt-apple-search-ads-uzmani", "Paid creative → mt-creative-yonetmeni", "App build/submit → developer (sistem dışı)"],
+  testSentences: [
+    { s: "ASO denetimi yap", expect: true },
+    { s: "ASA kampanyası kur", expect: false }
+  ]
+},
+{
+  name: "mt-entegrasyon-kurucu", icon: "🔌", invocation: "@mt-entegrasyon-kurucu", skill: "/mt-api-entegrasyon",
+  memory: "marketing_integration_state.md", mcp: "mcp-registry",
+  shortDesc: "API/MCP kurulum, OAuth/JWT, token expiry takibi, detaylı setup-notlari.md, her platform için developer handoff MD.",
+  tagline: "Platforma programatik bağlama uzmanı. mt-hesap-kurulum-rehberi insan-kayıt yönetir, bu ajan makine-erişim yönetir.",
+  whatItDoes: "Developer hesabı kontrol → app/project oluşturma → token alma (OAuth/JWT/API key) → scope seçimi → callback URL → .env güncelleme → MCP ekleme → test çağrısı. <strong>Detaylı kayıt zorunlu</strong>: her adımı setup-notlari.md'ye yazar (aylar sonra kullanıcı baktığında tekrar yapabilmeli). <strong>Token expiry proaktif uyarı</strong>: 7 gün kala 'şu token expire — yenileyelim mi?'. Reklam çıkacağı her platform için <strong>developer handoff MD</strong> üretir (Meta SDK, TikTok SDK, Firebase event, ASA AdServices).",
+  modes: [
+    { name: "Mod A — Yeni API Entegrasyonu", desc: "Sıfırdan: hesap kontrol → app oluşturma → token → scope → callback → .env → MCP → test → kurulu-entegrasyonlar.md update" },
+    { name: "Mod B — Token Yenileme", desc: "Refresh token akışı, yoksa OAuth flow baştan, .env update, test" },
+    { name: "Mod C — Yeni MCP Ekleme", desc: "mcp-registry search → kurulum komutu → auth → claude mcp list doğrulama" },
+    { name: "Mod D — Debug", desc: "401 / MCP failed / token reddi — adım adım checklist (env, header format, scope, network)" },
+    { name: "Mod E — Developer Handoff MD", desc: "Geliştirici (kullanıcı) için Firebase event, Meta SDK init, TikTok SDK init, ASA AdServices direktif MD'leri" }
+  ],
+  whenToCall: ["Meta Marketing API kuralım", "Google Ads API token al", "Yeni MCP ekleyelim", "Token expired", "401 alıyorum debug", "Firebase event handoff MD"],
+  whenNotToCall: [
+    { q: "Meta'da hesap aç", a: "mt-hesap-kurulum-rehberi (insan-kayıt)" },
+    { q: "Meta'da kampanya kur", a: "mt-meta-ads-uzmani" },
+    { q: "API nedir?", a: "mt-marketing-tutor (kavram)" },
+    { q: "Performans analiz", a: "mt-kampanya-analisti" }
+  ],
+  defaults: ["Adım adım setup-notlari.md (zorunlu)", "Token expiry takibi + 7 gün kala uyarı", "Hassas bilgi sadece .env veya token-vault.md (gitignore'da)", "Test çağrısı kurulum sonrası zorunlu", "Developer handoff her platform için"],
+  limits: ["Kayıt sürecini yönetmez → mt-hesap-kurulum-rehberi", "Kampanya kurmaz → ilgili platform ajan", "Veri analiz etmez → mt-kampanya-analisti", "Asla token MD'ye yazmaz (sadece .env / token-vault)"],
+  testSentences: [
+    { s: "Meta Marketing API kurulumu", expect: true },
+    { s: "API nedir?", expect: false }
+  ]
+}
+];
+
+const SKILLS = [
+{
+  name: "/mt-terim-ogren", icon: "📚", agent: "mt-marketing-tutor", costInducing: false,
+  shortDesc: "Bir terimi sıfırdan açıkla, SOZLUK.md'ye ekle.",
+  tagline: "Hızlı kavram öğrenme skill'i. Tek-shot, devam edilebilir akış yok.",
+  whatItDoes: "Kullanıcı bir terim sorduğunda mt-marketing-tutor ajanını çağırır, format gözeterek açıklatır (KISALTMA — Full English Name — Türkçe karşılık — Detay — Örnek — İlgili kavramlar). Kullanıcının anladığından emin olduktan sonra SOZLUK.md'ye alfabetik ekler, memory'ye (marketing_known_terms.md) kayıt yapar.",
+  flowSteps: [
+    "Kullanıcının verdiği terim(ler)i al",
+    "mt-marketing-tutor ajanını çağır",
+    "Ajan terim(ler)i format ile açıklar",
+    "Kullanıcının anladığından emin ol",
+    "SOZLUK.md'ye alfabetik ekle",
+    "Memory dosyasını güncelle"
+  ],
+  outputs: ["SOZLUK.md güncelleme", "marketing_known_terms.md (memory)"],
+  dependencies: ["mt-marketing-tutor ajanı"],
+  exampleCommands: ["/mt-terim-ogren CPI", "/mt-terim-ogren ROAS vs LTV", "/mt-terim-ogren AEM"],
+  costNote: "Maliyet doğurmaz — sadece Claude konuşmasi."
+},
+{
+  name: "/mt-hesap-ac", icon: "🔐", agent: "mt-hesap-kurulum-rehberi", costInducing: false,
+  shortDesc: "Platforma sıfırdan hesap aç (devam edilebilir).",
+  tagline: "Multi-step skill — yarıda kalırsa durum.md'den devam.",
+  whatItDoes: "Reklam platformlarına sıfırdan hesap açma sürecini yönetir. Her platform için <code>hesap-kurulumlari/&lt;platform&gt;/durum.md</code>'ye ilerleme yazar. Yarıda kalırsa kaldığı yerden devam edilebilir.",
+  flowSteps: [
+    "Hangi platform? (Meta / TikTok / ASA / Google / diğer)",
+    "hesap-kurulumlari/<platform>/durum.md kontrol — yarıda kalmış var mı?",
+    "Varsa kaldığı yerden, yoksa sıfırdan başla",
+    "mt-hesap-kurulum-rehberi ajanını çağır",
+    "Ön gereksinimler kontrol (e-posta, telefon, kart, TCKN, Apple Developer)",
+    "Adım adım kayıt akışı",
+    "Her adım sonrası durum.md güncelle",
+    "Tamamlandığında özet tablo update"
+  ],
+  outputs: ["hesap-kurulumlari/<platform>/durum.md (ilerleme)", "hesap-kurulumlari/<platform>/on-gereksinimler.md", "hesap-kurulumlari/<platform>/adim-adim.md (log)", "hesap-kurulumlari/README.md update"],
+  dependencies: ["mt-hesap-kurulum-rehberi ajanı"],
+  exampleCommands: ["/mt-hesap-ac", "Meta'da hesap açalım", "TikTok for Business kayıt"],
+  costNote: "Doğrudan maliyet yok — ama platforma ödeme kartı eklenir."
+},
+{
+  name: "/mt-yeni-uygulama", icon: "📦", agent: "paid-ua + strateji + rakip + aso", costInducing: false,
+  shortDesc: "Yeni app onboarding (4 ajan sırayla çağrılır).",
+  tagline: "Multi-step skill — 4 ajan sırayla çağrılarak yeni uygulama için ilk dökümantasyon üretir.",
+  whatItDoes: "Yeni uygulama için <code>projects/&lt;app-slug&gt;/</code> klasörünü _sablon'dan kopyalar, sonra 4 ajan sırayla çağrılarak ilk dökümantasyon üretilir.",
+  flowSteps: [
+    "App bilgisini sor: ad, slug, App Store URL, kategori, hedef pazar, monetization, ASO seviyesi",
+    "projects/<app-slug>/ klasörünü _sablon'dan kopyala",
+    "00-app-overview.md doldur",
+    "mt-paid-ua-uzmani çağır → 02-paid-ua-stratejisi.md (kanal yön)",
+    "mt-strateji-uzmani çağır → KPI hedefler + ilk ay bütçe taslağı",
+    "mt-rakip-arastirmaci çağır → 3-5 rakip benchmark",
+    "mt-aso-uzmani çağır → ASO audit",
+    "Özet rapor + sonraki adım önerisi"
+  ],
+  outputs: ["projects/<app-slug>/ dolu (00-app-overview, 02-paid-ua-stratejisi, 04-rakip-analizleri/_benchmark, 05-aso-stratejisi)"],
+  dependencies: ["mt-paid-ua-uzmani, mt-strateji-uzmani, mt-rakip-arastirmaci, mt-aso-uzmani", "projects/_sablon/"],
+  exampleCommands: ["/mt-yeni-uygulama", "Habit App'i ekleyelim"],
+  costNote: "Maliyet yok."
+},
+{
+  name: "/mt-yeni-kampanya", icon: "🚀", agent: "Platform + creative-yonetmeni + strateji-uzmani", costInducing: true,
+  shortDesc: "Yeni kampanya planla + setup. Platform ajan + creative + strateji.",
+  tagline: "Multi-step skill — yeni kampanya akışı için 3+ ajan zincirleme çalışır.",
+  whatItDoes: "Hangi platform / uygulama / hedef / bütçe sorulur. mt-strateji-uzmani bütçe + KPI hedef alır. İlgili platform uzmanı kampanya planını çıkarır. mt-creative-yonetmeni creative üretir. Çıktı: kampanya plan dosyası + creative klasör.",
+  flowSteps: [
+    "Hangi uygulama? (projects/ tarama)",
+    "Hangi platform? (Meta / TikTok / ASA / Google)",
+    "Hangi optimizasyon hedefi? (Install / Subscribe / Trial / Purchase)",
+    "Hedef coğrafya, dil",
+    "mt-strateji-uzmani çağır → bütçe + KPI",
+    "İlgili platform uzmanını çağır (AAC/SPC/ASA/AC plan)",
+    "mt-creative-yonetmeni çağır → creative brief + üretim",
+    "Maliyet onayı al, üretimi başlat",
+    "Çıktı dosyası kaydet"
+  ],
+  outputs: ["projects/<app>/kampanyalar/<platform>/<yyyy-mm-dd>-<adi>.md", "projects/<app>/creative/<tarih-brief>/", "(varsa) Firebase event handoff MD"],
+  dependencies: ["Platform uzmanları (mt-meta/tiktok/asa/google-ads-uzmani)", "mt-strateji-uzmani", "mt-creative-yonetmeni"],
+  exampleCommands: ["/mt-yeni-kampanya", "Meta'da AAC kampanya açalım", "ASA brand campaign başlat"],
+  costNote: "Maliyet doğurur — creative üretim için fal.ai ($0.18-1+) ve gerçek kampanya bütçesi."
+},
+{
+  name: "/mt-creative-uretim", icon: "🎨", agent: "mt-creative-yonetmeni", costInducing: true,
+  shortDesc: "Görsel/video/copy üret (fal.ai + Shotstack). 5 mod.",
+  tagline: "Sistemin tek üretim skill'i — gerçek dosya çıktısı verir.",
+  whatItDoes: "Brief alır, mt-creative-yonetmeni'ni 5 modundan birinde çalıştırır (Brief→Üretim / Copy / A/B Set / Revizyon / Trend Research). Maliyet onayı + vision kalite gate + öğrenen sistem.",
+  flowSteps: [
+    "Brief al (kullanıcı veya bir önceki skill'den)",
+    "Hangi mod?",
+    "mt-creative-yonetmeni pipeline'ı yönet",
+    "Library tarama",
+    "Task tipi belirleme",
+    "Model seçimi (favori → katalog → recommend)",
+    "Maliyet hesabı + kullanıcı onayı",
+    "fal.ai üretim",
+    "Vision 8-checklist kalite gate",
+    "(Video ise) Shotstack post-prod",
+    "Çıktı kaydet + favori-modeller güncelle"
+  ],
+  outputs: ["projects/<app>/creative/<yyyy-mm-dd>-<brief-adi>/ klasörü (gorseller/, videolar/, copy/, kalite-raporu.md, brief.md, notlar.md)", "entegrasyonlar/fal-ai/favori-modeller.md (öğrenen sistem)"],
+  dependencies: ["mt-creative-yonetmeni ajanı", "fal.ai MCP (kurulu)", "Shotstack MCP (kurulu)"],
+  exampleCommands: ["/mt-creative-uretim", "Reels için video üret", "5 image varyantı"],
+  costNote: "Maliyet doğurur — fal.ai per asset. Tipik brief: $0.18-$1.50 (Schnell draft + Pro final two-stage). Video: $1-3 (Kling 15s). Onay zorunlu."
+},
+{
+  name: "/mt-rakip-analizi", icon: "🔭", agent: "mt-rakip-arastirmaci", costInducing: false,
+  shortDesc: "Rakip derinlemesine veya kategori benchmark.",
+  tagline: "Public veri kaynaklarıyla rakip analiz raporu üretir.",
+  whatItDoes: "mt-rakip-arastirmaci ajanını çağırır. 4 modu var: tek rakip / kategori benchmark / yön bazlı / güncelleme takibi. Public kaynakları tarar (App Store, Ad Library, Creative Center, Transparency, reviews).",
+  flowSteps: [
+    "Mod seçimi (tek rakip / benchmark / yön / güncelleme)",
+    "Rakip(ler) adı veya App Store URL al",
+    "Storefront(lar) seç",
+    "mt-rakip-arastirmaci ajanı çağır",
+    "Public kaynak tarama (App Store, Meta Ad Library, TikTok Creative Center, Google Ads Transparency, reviews)",
+    "Yapılandırılmış rapor üretim",
+    "'Bizim için öğretiler' bölümü ekle"
+  ],
+  outputs: ["projects/<app>/rakip-analizleri/<rakip-slug>.md", "projects/<app>/rakip-analizleri/_benchmark-<tarih>.md (kategori mode)"],
+  dependencies: ["mt-rakip-arastirmaci ajanı"],
+  exampleCommands: ["/mt-rakip-analizi", "Streaks app'i analiz et", "Habit kategorisi rakipler"],
+  costNote: "Maliyet yok (WebSearch + WebFetch built-in)."
+},
+{
+  name: "/mt-butce-planla", icon: "💰", agent: "mt-strateji-uzmani", costInducing: false,
+  shortDesc: "Aylık plan + bütçe allocation + KPI (haftalık checkpoint'lerle).",
+  tagline: "Aylık marketing planı yazıcı skill.",
+  whatItDoes: "mt-strateji-uzmani Mod A'da çalıştırır. Geçen ay verisi (raporlar/ + RevenueCat) okur, KPI hedefler belirler, uygulama × kanal allocation yapar, 4 haftalık checkpoint'ler tanımlar, erken revize tetikleyicileri kurar.",
+  flowSteps: [
+    "Hangi periyot? (aylık default, üç aylık opsiyonel)",
+    "Toplam bütçe (memory + butce/ + kullanıcı)",
+    "mt-strateji-uzmani Mod A çağır",
+    "Geçen ay verisi okuma",
+    "KPI hedefler",
+    "Uygulama × kanal allocation",
+    "4 haftalık checkpoint + eşikler",
+    "Erken revize tetikleyicileri",
+    "Çıktı yaz"
+  ],
+  outputs: ["butce/<yyyy-mm>.md", "projects/<app>/02-paid-ua-stratejisi.md (Bütçe & KPI bölümü append)"],
+  dependencies: ["mt-strateji-uzmani ajanı", "(opsiyonel) mt-kampanya-analisti geçen ay verisi için"],
+  exampleCommands: ["/mt-butce-planla", "Haziran bütçesi", "$500 nasıl dağıtmalı?"],
+  costNote: "Maliyet yok."
+},
+{
+  name: "/mt-haftalik-rapor", icon: "📊", agent: "mt-kampanya-analisti", costInducing: false,
+  shortDesc: "Haftalık performans review + aksiyon listesi.",
+  tagline: "Haftalık operasyonel takip skill'i. Phase 4'te scheduled task (Pazartesi 09:00) ile otomatize edilecek.",
+  whatItDoes: "mt-kampanya-analisti Mod A'da çalıştırır. Aktif kampanyaların verisini çeker (RevenueCat MCP + manuel), KPI hesaplar, mt-strateji-uzmani'nin checkpoint'lerine bakar (yeşil/sarı/kırmızı), aksiyon listesi (ikili öneri — yön + spesifik rakam).",
+  flowSteps: [
+    "Periyot? (default: son 7 gün)",
+    "Hangi uygulama(lar)?",
+    "mt-kampanya-analisti Mod A çağır",
+    "RevenueCat'ten son 7 gün veri",
+    "raporlar/ önceki rapor karşılaştırma",
+    "Manuel veri girişi (gerekirse)",
+    "Checkpoint okuma (butce/<yyyy-mm>.md)",
+    "KPI hesap + plan vs gerçek",
+    "Aksiyon listesi (ikili öneri)",
+    "Büyük sapma (%30+) → otomatik mt-strateji-uzmani çağır",
+    "Çıktı"
+  ],
+  outputs: ["raporlar/<yyyy-mm-dd>-haftalik.md"],
+  dependencies: ["mt-kampanya-analisti ajanı", "RevenueCat MCP (kurulu)", "(varsa) butce/<yyyy-mm>.md"],
+  exampleCommands: ["/mt-haftalik-rapor", "Bu hafta kampanyalar nasıl?", "Haftayı kapat"],
+  costNote: "Maliyet yok."
+},
+{
+  name: "/mt-aylik-strateji", icon: "📅", agent: "kampanya-analisti + strateji-uzmani", costInducing: false,
+  shortDesc: "Ay sonu retro + sonraki ay planı (2 ajan birlikte).",
+  tagline: "Multi-agent skill — ay sonu retrospektif + sonraki ay planı tek akışta.",
+  whatItDoes: "İki ajan birlikte: mt-kampanya-analisti geçen ay retrospektif yazar, mt-strateji-uzmani sonraki ay planını yazar. Phase 4'te scheduled task (ayın 1'i 09:00) ile otomatize edilecek.",
+  flowSteps: [
+    "Hangi ay biten? (default: geçen ay)",
+    "mt-kampanya-analisti Mod E (Retrospektif)",
+    "Geçen ayın tüm haftalık raporları topla",
+    "Plan vs gerçek karşılaştırma",
+    "Kazanan/kaybeden kampanyalar + öğrenilenler",
+    "Retro çıktı dosyası",
+    "mt-strateji-uzmani Mod A (Sonraki Ay Plan)",
+    "Retro'yu input al",
+    "Yeni KPI + allocation + checkpoint'ler",
+    "Plan çıktı dosyası"
+  ],
+  outputs: ["raporlar/<yyyy-mm>-aylik-retro.md", "butce/<yyyy-mm-next>.md"],
+  dependencies: ["mt-kampanya-analisti, mt-strateji-uzmani"],
+  exampleCommands: ["/mt-aylik-strateji", "Mayıs retrospektif + Haziran planı"],
+  costNote: "Maliyet yok."
+},
+{
+  name: "/mt-revenuecat-ozet", icon: "💳", agent: "kampanya-analisti + RevenueCat MCP", costInducing: false,
+  shortDesc: "Subscription özet (MRR, ARR, churn, cohort, paywall).",
+  tagline: "Subscription app'i için RevenueCat dashboard özeti. Phase 4'te günlük scheduled task ile otomatize.",
+  whatItDoes: "RevenueCat MCP üzerinden son N gün metriklerini çeker (MRR, ARR, active subs, churn, trial conversion, paywall conversion). mt-kampanya-analisti yorumu ekler.",
+  flowSteps: [
+    "Periyot? (default: son 30 gün)",
+    "Hangi uygulama? (RevenueCat'te proje seç)",
+    "RevenueCat MCP çağrıları:",
+    "  - list-projects, list-apps",
+    "  - get-overview-metrics (MRR/ARR/churn)",
+    "  - get-revenue-metric (revenue zaman serisi)",
+    "  - list-subscriptions, list-purchases",
+    "  - get-customer-center-config (paywall)",
+    "mt-kampanya-analisti yorumu (cohort, trial→sub)",
+    "Çıktı"
+  ],
+  outputs: ["projects/<app>/raporlar/revenuecat/<yyyy-mm-dd>.md"],
+  dependencies: ["RevenueCat MCP (kurulu)", "mt-kampanya-analisti ajan"],
+  exampleCommands: ["/mt-revenuecat-ozet", "Son 30 gün subscription özet", "MRR nasıl"],
+  costNote: "Maliyet yok."
+},
+{
+  name: "/mt-api-entegrasyon", icon: "🔌", agent: "mt-entegrasyon-kurucu", costInducing: false,
+  shortDesc: "Yeni API/MCP entegre et (token, OAuth, MCP add).",
+  tagline: "Multi-step skill — API/MCP kurulum süreci adım adım, devam edilebilir.",
+  whatItDoes: "mt-entegrasyon-kurucu ajanını çağırır. Token alma, OAuth flow, .env güncelleme, MCP ekleme, test çağrısı. Detaylı setup-notlari.md yazılır (aylar sonra geri bakılabilir).",
+  flowSteps: [
+    "Hangi platform / entegrasyon?",
+    "Mod? (yeni kurulum / yenileme / MCP ekleme / debug)",
+    "mt-entegrasyon-kurucu çağır",
+    "Developer hesabı kontrol",
+    "Token alma akışı (OAuth/JWT/API key)",
+    "Scope seçimi (minimum)",
+    ".env güncelleme",
+    "MCP ekleme (claude mcp add)",
+    "Test çağrısı (curl)",
+    "setup-notlari.md adım adım yaz",
+    "kurulu-entegrasyonlar.md update"
+  ],
+  outputs: ["entegrasyonlar/<platform>/setup-notlari.md", ".env güncelleme", "entegrasyonlar/kurulu-entegrasyonlar.md update"],
+  dependencies: ["mt-entegrasyon-kurucu ajan", "mcp-registry MCP (kurulu)"],
+  exampleCommands: ["/mt-api-entegrasyon", "Meta Marketing API kuralım", "TikTok için MCP"],
+  costNote: "Doğrudan maliyet yok — ama API kullanımı maliyete neden olabilir."
+},
+{
+  name: "/mt-aso-audit", icon: "🏪", agent: "mt-aso-uzmani", costInducing: false,
+  shortDesc: "10 boyutlu ASO denetimi (aylık).",
+  tagline: "App Store listing denetimi — skor + öncelikli iyileştirmeler.",
+  whatItDoes: "mt-aso-uzmani Mod A'da çalıştırır. App Store sayfasını tarar, 10 boyutta /100 skor verir, top 5 iyileştirme listesi çıkarır, screenshot brief'lerini mt-creative-yonetmeni'ne yönlendirir.",
+  flowSteps: [
+    "Hangi uygulama?",
+    "App Store URL (kullanıcı veya 00-app-overview.md)",
+    "Hangi storefront(lar)?",
+    "mt-aso-uzmani Mod A çağır",
+    "WebFetch App Store sayfa",
+    "10 boyutta skor (title/subtitle/keywords/description/screenshots/ikon/preview/localization/rating/reviews)",
+    "Top 5 iyileştirme",
+    "Sonraki adımlar (screenshot → creative-yonetmeni, CPP → asa-uzmani)",
+    "Çıktı"
+  ],
+  outputs: ["projects/<app>/05-aso-stratejisi.md (update)"],
+  dependencies: ["mt-aso-uzmani ajan"],
+  exampleCommands: ["/mt-aso-audit", "Habit App ASO denetle", "App Store listing skor"],
+  costNote: "Maliyet yok."
+}
+];
+
+const MCPS = [
+  { name: "RevenueCat MCP", icon: "💳", status: "active", users: "mt-kampanya-analisti, /mt-revenuecat-ozet", desc: "Subscription/LTV/paywall verisi. Customer center, experiments, charts, cohort analizi." },
+  { name: "fal.ai MCP", icon: "🎨", status: "active", users: "mt-creative-yonetmeni, mt-aso-uzmani", desc: "1000+ generative model — FLUX (Schnell+Pro), Kling 2.5/3.0, Veo 3.1, Sora 2, Ideogram V3 (text rendering şampiyonu), Nano Banana Pro, Seedance (ByteDance, TikTok için #1). Image + video + audio." },
+  { name: "Shotstack MCP", icon: "🎬", status: "active", users: "mt-creative-yonetmeni", desc: "Video post-production. Concat (hook+body+outro), captions (Nico/Kai/Kapow/Lovely Little Lychee/Rizz presets), logo overlay, music sync, template + merge fields ile bulk varyant." },
+  { name: "mcp-registry", icon: "🔍", status: "active", users: "mt-entegrasyon-kurucu", desc: "Yeni MCP arama + suggest. Yeni entegrasyon ihtiyaçlarında search_mcp_registry ile arayıp suggest_connectors ile kullanıcıya öneri sunma." },
+  { name: "scheduled-tasks MCP", icon: "⏰", status: "pending", users: "(Phase 4)", desc: "Cron-style otomasyonlar. Phase 4'te aktive: /mt-haftalik-rapor (Pazartesi 09:00), /mt-aylik-strateji (ayın 1'i 09:00), /mt-revenuecat-ozet (günlük 18:00)." },
+  { name: "Meta Marketing API", icon: "📱", status: "pending", users: "mt-meta-ads-uzmani, mt-kampanya-analisti", desc: "Phase 4 REST API. OAuth long-lived token (60 gün). Scope: ads_management, business_management. App review gerekebilir." },
+  { name: "TikTok Business API", icon: "🎵", status: "pending", users: "mt-tiktok-ads-uzmani, mt-kampanya-analisti", desc: "Phase 4 REST. OAuth flow. Scope: ad.read, ad.write, reporting." },
+  { name: "ASA Campaign Mgmt API", icon: "🍎", status: "pending", users: "mt-apple-search-ads-uzmani, mt-kampanya-analisti", desc: "Phase 4. JWT auth (private key .p8 + Key ID + Team ID). JWT her saat regenerate. Apple Developer Account gerekli." },
+  { name: "Google Ads API", icon: "🔍", status: "pending", users: "mt-google-ads-uzmani, mt-kampanya-analisti", desc: "Phase 4. OAuth 2.0 + Developer Token (Google Ads Manager Account). Customer ID (10-digit). v15+ API." },
+  { name: "ASO Tool API (opsiyonel)", icon: "🔭", status: "pending", users: "mt-rakip-arastirmaci (güçlendirme)", desc: "Phase 4+. AppTweak / Sensor Tower / Data.ai. Tahmini download/revenue, keyword ranking history, competitor overlap, country market share." }
+];
+
+// Render helpers
+function tag(html) { return html || '—'; }
+function listHtml(arr) {
+  if (!arr || !arr.length) return '<p>—</p>';
+  return '<ul>' + arr.map(x => `<li>${x}</li>`).join('') + '</ul>';
+}
+function modesHtml(modes) {
+  if (!modes || !modes.length) return '';
+  return modes.map(m => `<div class="mode-card"><div class="mode-card-name">${m.name}</div><div class="mode-card-desc">${m.desc}</div></div>`).join('');
+}
+function exampleListHtml(arr) {
+  if (!arr || !arr.length) return '<p>—</p>';
+  return '<ul class="example-list">' + arr.map(x => `<li>${x}</li>`).join('') + '</ul>';
+}
+function dontListHtml(arr) {
+  if (!arr || !arr.length) return '<p>—</p>';
+  return '<ul class="dont-list">' + arr.map(x => `<li><strong>${x.q}</strong> → <code>${x.a}</code></li>`).join('') + '</ul>';
+}
+function testListHtml(arr) {
+  if (!arr || !arr.length) return '<p>—</p>';
+  return '<ul class="test-list">' + arr.map(t => `<li class="${t.expect ? 'pass' : 'fail'}">"${t.s}" → ${t.expect ? 'tetiklenmeli' : 'tetiklenmemeli'}</li>`).join('') + '</ul>';
+}
+function fileTagsHtml(arr) {
+  if (!arr || !arr.length) return '<p>—</p>';
+  return arr.map(f => `<span class="file-tag">${f}</span>`).join('');
+}
+function linkTagsHtml(arr) {
+  if (!arr || !arr.length) return '<p>—</p>';
+  return arr.map(x => `<span class="link-tag">${x}</span>`).join('');
+}
+
+function renderAgentModal(a) {
+  return `
+    <div class="modal-header">
+      <span class="modal-icon">${a.icon}</span>
+      <div>
+        <div class="modal-title">${a.name}</div>
+      </div>
+      <span class="modal-type agent">Agent</span>
+    </div>
+    <p class="modal-tagline">${a.tagline}</p>
+
+    <div class="detail-section">
+      <h3>📖 Ne Yapar</h3>
+      <p>${a.whatItDoes}</p>
+    </div>
+
+    <div class="detail-section">
+      <h3>🎛 Modlar (${a.modes ? a.modes.length : 0})</h3>
+      ${modesHtml(a.modes)}
+    </div>
+
+    <div class="detail-section">
+      <h3>✅ Ne Zaman Çağırılmalı (örnek prompt'lar)</h3>
+      ${exampleListHtml(a.whenToCall)}
+    </div>
+
+    <div class="detail-section">
+      <h3>❌ Ne Zaman Çağırılmamalı (çakışmalar)</h3>
+      ${dontListHtml(a.whenNotToCall)}
+    </div>
+
+    <div class="detail-section">
+      <h3>⚙️ Default Davranışlar</h3>
+      ${listHtml(a.defaults)}
+    </div>
+
+    <div class="detail-section">
+      <h3>🚧 Sınırlar (kesin)</h3>
+      ${listHtml(a.limits)}
+    </div>
+
+    <div class="detail-section">
+      <h3>🧪 Tetikleyici Test Cümleleri</h3>
+      ${testListHtml(a.testSentences)}
+    </div>
+
+    <div class="detail-section">
+      <h3>📁 Bağlantılı Yapılar</h3>
+      <p><strong>Memory:</strong> <span class="file-tag">${a.memory}</span></p>
+      <p style="margin-top:0.5rem;"><strong>MCP/Entegrasyon:</strong> ${a.mcp}</p>
+    </div>
+
+    <div class="modal-footer">
+      <a href="agent-rehberi/${a.name}.md" target="_blank">📄 Detaylı rehber</a>
+      <a href=".claude/agents/${a.name}.md" target="_blank">⚙️ Prompt (advanced)</a>
+      <span class="invocation">${a.invocation}</span>
+    </div>
+  `;
+}
+
+function renderSkillModal(s) {
+  return `
+    <div class="modal-header">
+      <span class="modal-icon">${s.icon}</span>
+      <div>
+        <div class="modal-title">${s.name}</div>
+      </div>
+      <span class="modal-type skill">Skill</span>
+    </div>
+    <p class="modal-tagline">${s.tagline}</p>
+
+    <div class="detail-section">
+      <h3>📖 Ne Yapar</h3>
+      <p>${s.whatItDoes}</p>
+    </div>
+
+    <div class="detail-section">
+      <h3>🔄 Akış Adımları</h3>
+      <ol>${s.flowSteps.map(step => `<li>${step}</li>`).join('')}</ol>
+    </div>
+
+    <div class="detail-section">
+      <h3>📂 Çıktı Dosyaları</h3>
+      ${fileTagsHtml(s.outputs)}
+    </div>
+
+    <div class="detail-section">
+      <h3>🔗 Bağımlılıklar</h3>
+      ${linkTagsHtml(s.dependencies)}
+    </div>
+
+    <div class="detail-section">
+      <h3>💬 Örnek Komutlar</h3>
+      ${exampleListHtml(s.exampleCommands)}
+    </div>
+
+    <div class="detail-section">
+      <h3>💰 Maliyet Notu</h3>
+      <p>${s.costInducing ? '<span style="color:#fbbf24;">⚠️ Maliyet doğurur</span> — ' : '<span style="color:#86efac;">✓ Maliyet yok</span> — '}${s.costNote}</p>
+    </div>
+
+    <div class="modal-footer">
+      <a href=".claude/skills/${s.name.replace('/', '')}/SKILL.md" target="_blank">📄 SKILL.md</a>
+      <span class="invocation">${s.name}</span>
+    </div>
+  `;
+}
+
+function renderMcpModal(m) {
+  const statusClass = m.status === 'active' ? 'status-active' : 'status-pending';
+  const statusText = m.status === 'active' ? 'Kurulu (aktif)' : 'Phase 4 (planlı)';
+  return `
+    <div class="modal-header">
+      <span class="modal-icon">${m.icon}</span>
+      <div>
+        <div class="modal-title">${m.name}</div>
+      </div>
+      <span class="modal-type mcp">MCP/API</span>
+    </div>
+    <p class="modal-tagline">${m.desc}</p>
+
+    <div class="detail-section">
+      <h3>📊 Durum</h3>
+      <p><span class="status-dot ${statusClass}"></span>${statusText}</p>
+    </div>
+
+    <div class="detail-section">
+      <h3>🤖 Kullanan Ajan/Skill</h3>
+      <p>${m.users}</p>
+    </div>
+  `;
+}
+
+// Card creators
+function createAgentCard(a) {
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.dataset.type = 'agent';
+  div.dataset.search = (a.name + ' ' + a.shortDesc + ' ' + a.tagline + ' ' + JSON.stringify(a.whenToCall)).toLowerCase();
+  div.innerHTML = `
+    <div class="card-header">
+      <span class="card-icon">${a.icon}</span>
+      <span class="card-title">${a.name}</span>
+      <span class="card-type agent">Agent</span>
+    </div>
+    <div class="card-desc">${a.shortDesc}</div>
+    <div class="card-meta">
+      <div class="card-meta-row"><strong>Skill:</strong> <span>${a.skill}</span></div>
+      <div class="card-meta-row"><strong>Modlar:</strong> <span>${a.modes ? a.modes.length : 1}</span></div>
+      <div class="card-meta-row"><strong>MCP:</strong> <span>${a.mcp}</span></div>
+    </div>
+    <div class="card-cta">📖 Detayları gör →</div>
+  `;
+  div.addEventListener('click', () => openModal(renderAgentModal(a)));
+  return div;
+}
+
+function createSkillCard(s) {
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.dataset.type = 'skill';
+  div.dataset.search = (s.name + ' ' + s.shortDesc + ' ' + s.tagline + ' ' + JSON.stringify(s.exampleCommands)).toLowerCase();
+  div.innerHTML = `
+    <div class="card-header">
+      <span class="card-icon">${s.icon}</span>
+      <span class="card-title">${s.name}</span>
+      <span class="card-type skill">Skill</span>
+    </div>
+    <div class="card-desc">${s.shortDesc}</div>
+    <div class="card-meta">
+      <div class="card-meta-row"><strong>Çağırır:</strong> <span>${s.agent}</span></div>
+      <div class="card-meta-row"><strong>Adımlar:</strong> <span>${s.flowSteps.length} adım</span></div>
+      <div class="card-meta-row"><strong>Maliyet:</strong> <span>${s.costInducing ? '⚠️ var' : '✓ yok'}</span></div>
+    </div>
+    <div class="card-cta">📖 Detayları gör →</div>
+  `;
+  div.addEventListener('click', () => openModal(renderSkillModal(s)));
+  return div;
+}
+
+function createMcpCard(m) {
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.dataset.type = 'mcp';
+  div.dataset.search = (m.name + ' ' + m.desc).toLowerCase();
+  const statusClass = m.status === 'active' ? 'status-active' : 'status-pending';
+  const statusText = m.status === 'active' ? 'Kurulu' : 'Phase 4';
+  div.innerHTML = `
+    <div class="card-header">
+      <span class="card-icon">${m.icon}</span>
+      <span class="card-title">${m.name}</span>
+      <span class="card-type mcp">MCP/API</span>
+    </div>
+    <div class="card-desc">${m.desc}</div>
+    <div class="card-meta">
+      <div class="card-meta-row"><strong>Durum:</strong> <span><span class="status-dot ${statusClass}"></span>${statusText}</span></div>
+      <div class="card-meta-row"><strong>Kullanan:</strong> <span>${m.users}</span></div>
+    </div>
+    <div class="card-cta">📖 Detayları gör →</div>
+  `;
+  div.addEventListener('click', () => openModal(renderMcpModal(m)));
+  return div;
+}
+
+// Modal
+const modalBackdrop = document.getElementById('modal-backdrop');
+const modalBody = document.getElementById('modal-body');
+const modalClose = document.getElementById('modal-close');
+
+function openModal(html) {
+  modalBody.innerHTML = html;
+  modalBackdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  modalBackdrop.classList.remove('open');
+  document.body.style.overflow = '';
+}
+modalClose.addEventListener('click', closeModal);
+modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+// Mount cards
+const agentsGrid = document.getElementById('agents-grid');
+const skillsGrid = document.getElementById('skills-grid');
+const mcpGrid = document.getElementById('mcp-grid');
+
+AGENTS.forEach(a => agentsGrid.appendChild(createAgentCard(a)));
+SKILLS.forEach(s => skillsGrid.appendChild(createSkillCard(s)));
+MCPS.forEach(m => mcpGrid.appendChild(createMcpCard(m)));
+
+// Search + filter
+const search = document.getElementById('search');
+const filterBtns = document.querySelectorAll('.filter-btn');
+let currentFilter = 'all';
+
+function applyFilters() {
+  const q = search.value.toLowerCase().trim();
+  document.querySelectorAll('.card').forEach(card => {
+    const matchesSearch = !q || card.dataset.search.includes(q);
+    const matchesFilter = currentFilter === 'all' || card.dataset.type === currentFilter;
+    card.classList.toggle('hidden', !(matchesSearch && matchesFilter));
+  });
+}
+
+search.addEventListener('input', applyFilters);
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    applyFilters();
+  });
+});
+</script>
+</body>
+</html>

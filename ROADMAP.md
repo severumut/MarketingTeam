@@ -18,9 +18,9 @@ Bu klasör aşamalı (Phase by Phase) büyür. Her Phase bir önceki üstüne in
 
 ---
 
-## Phase 1 — Ajanlar ⏳ (Sırada)
+## Phase 1 — Ajanlar ✅ (Tamamlandı 2026-05-18)
 
-**Hedef**: 14 uzman ajanı sırayla yaz. Her ajan **kendi turunda** — birlikte tasarlanıp, prompt'u yazılıp, test edilir.
+**Hedef**: 13 uzman ajan (içerik-uretici çıkarıldı, sistem paid-only). Her ajan **kendi turunda** — birlikte tasarlanıp, prompt'u yazılıp, test edilir.
 
 **Akış (her ajan için)**:
 1. `agent-rehberi/<ad>.md` birlikte konuşulur (ne / neden / ne zaman / nasıl).
@@ -50,9 +50,9 @@ Bu klasör aşamalı (Phase by Phase) büyür. Her Phase bir önceki üstüne in
 
 ---
 
-## Phase 2 — Skill'ler ⏳
+## Phase 2 — Skill'ler ✅ (Tamamlandı 2026-05-18)
 
-**Hedef**: 13 user-invocable skill — her biri ajanları çağıran iş akışı.
+**Hedef**: 12 user-invocable skill (mt-content-takvimi çıkarıldı) — her biri ajanları çağıran iş akışı.
 
 **Akış**: Aynı yavaş mod (skill-rehberi → SKILL.md → test).
 
@@ -88,18 +88,52 @@ Bu klasör aşamalı (Phase by Phase) büyür. Her Phase bir önceki üstüne in
 
 ---
 
-## Phase 4 — Operasyonel ⏳
+## Phase 4 — Operasyonel ⏳ (Sırada)
 
 **Hedef**: Sistemin gerçek hayatta çalıştırılması.
 
-**Adımlar**:
-1. İlk uygulamanı `/mt-yeni-uygulama` ile ekle (projects/ altına).
-2. İlk hesap açma akışı `/mt-hesap-ac` ile bir platform için.
-3. İlk gerçek API entegrasyonu `/mt-api-entegrasyon` (Meta veya ASA).
-4. İlk creative üretimi `/mt-creative-uretim`.
-5. İlk kampanya `/mt-yeni-kampanya`.
-6. İlk haftalık rapor `/mt-haftalik-rapor`.
-7. Scheduled Tasks otomasyonlarından 1-2 tanesini aktive et.
+**Kullanıcı tarafından onaylanan sıra (2026-05-19)**:
+
+### Adım 1 — İlk hesap açma (`/mt-hesap-ac`)
+- Önerilen platform sırası: **ASA → Meta → TikTok → Google** (mt-paid-ua-uzmani'nin önerisi)
+- ASA önce çünkü indie iOS için en yüksek ROAS potansiyeli + Apple Developer hesabı zaten var
+- Her hesap için `hesap-kurulumlari/<platform>/durum.md` takip
+- Yarıda kalırsa devam edilebilir
+
+### Adım 2 — İlk API entegrasyonu (`/mt-api-entegrasyon`)
+- Adım 1'de açılan platformların programatik erişimi
+- `mt-entegrasyon-kurucu` adım adım yönlendirir
+- **Detaylı setup-notlari.md** her platform için yazılır (aylar sonra geri bakılabilir)
+- Token expiry takibi başlar
+- Her platform için **developer handoff MD** üretilir (SDK init, event tracking) — geliştiriciye
+
+### Adım 3 — İlk uygulama ekleme (`/mt-yeni-uygulama`)
+- 4 canlı uygulamasından biri seçilir
+- `projects/<app-slug>/` yapısı yaratılır
+- İlk dökümantasyon (mt-paid-ua-uzmani + mt-strateji-uzmani + mt-rakip-arastirmaci + mt-aso-uzmani sırayla çağrılır)
+- Bu noktadan sonra kampanya kurulabilir
+
+### Adım 4 — İlk creative üretimi (`/mt-creative-uretim`)
+- fal.ai + Shotstack pipeline test
+- Two-stage strategy (Schnell draft → Pro final)
+- Vision kalite gate
+- favori-modeller.md ilk girişler
+
+### Adım 5 — İlk kampanya (`/mt-yeni-kampanya`)
+- Tek platform tek kampanya — minimum başlangıç
+- mt-strateji-uzmani aylık plan ile birleşir
+- İlk haftalık checkpoint'ler aktif olur
+
+### Adım 6 — İlk haftalık rapor (`/mt-haftalik-rapor`)
+- mt-kampanya-analisti gerçek veri okur
+- Plan vs gerçek karşılaştırma
+
+### Adım 7 — Scheduled Task otomasyonları
+- `/mt-haftalik-rapor` → Pazartesi 09:00
+- `/mt-revenuecat-ozet` → Günlük 18:00 (subscription app için)
+- `/mt-aylik-strateji` → Ayın 1'i 09:00
+
+**Bu sıra bittiğinde** sistem tam operasyonel — yeni uygulama ekleme + ay sonu retrospektif + sürekli iterasyon döngüsü.
 
 ---
 
@@ -114,7 +148,10 @@ Bu Phase bitmiyor. Bu noktadan sonra:
 
 ---
 
-## Mevcut Durum (2026-05-17)
+## Mevcut Durum (2026-05-19)
 
-✅ Phase 0 tamamlandı.
-⏳ Phase 1 — başlamayı bekliyor (ilk: `mt-marketing-tutor`).
+✅ Phase 0 — İskelet
+✅ Phase 1 — 13 ajan
+✅ Phase 2 — 12 skill
+⏳ Phase 3 — Bilgi bankası (paralel olarak)
+⏳ Phase 4 — Operasyonel (Adım 1: ASA hesap açma)
