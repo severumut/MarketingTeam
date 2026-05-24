@@ -3,7 +3,7 @@
 > Bu dosya **yaşayan belge**. Deneme-yanılma ile elde edilen model tercihleri burada birikir.
 > AI ajan creative üretimi öncesi önce buraya bakar; varsa favoriden başlar, yoksa `model-katalog.md` defaultlarını dener.
 
-> Son güncelleme: 2026-05-18 (boş başlangıç)
+> Son güncelleme: 2026-05-19 (ilk BlurFilm preview üretimi)
 
 ---
 
@@ -25,7 +25,8 @@
 
 | Model | Task tipi | Neden tercih edildi | İlk kayıt | Son kullanım | Başarılı çıktı sayısı |
 |---|---|---|---|---|---|
-| *(henüz boş — ilk creative üretimi sonrası dolacak)* | | | | | |
+| `fal-ai/flux/schnell` | Storyboard / draft image (9:16) | $0.003/MP ucuz, 0.34s inference, 9:16 custom dimension destekliyor; storyboard-quality concept frames için ideal | 2026-05-19 | 2026-05-19 | 7 (Stage 1 BlurFilm preview) — 5 başarılı + 2 retry (scene 3, scene 5 prompt revize) |
+| `fal-ai/kling-video/v2.5-turbo/pro/image-to-video` | Image-to-video 5s (premium tier) | Brief'te Kling 2.0 istendi ama fal'da 2.0 yok; 2.5 Turbo Pro premium successor — $0.07/s (ceiling'de), cinematic motion, prompt precision iyi | 2026-05-19 | 2026-05-19 | 5 (Stage 2 BlurFilm preview, ilk denemede hepsi temiz) |
 
 ---
 
@@ -43,7 +44,9 @@
 
 | Model | Not |
 |---|---|
-| *(henüz boş)* | |
+| `fal-ai/flux/schnell` | "no text, no logos" negative prompt'unu agresif kullan — AI tipik olarak gibberish text üretiyor, sonra Shotstack overlay daha temiz olur. Image dimension `{width: 1080, height: 1920}` ile 9:16 native dönüyor (output 1072×1920 — minor crop ihtiyacı yok). |
+| `fal-ai/kling-video/v2.5-turbo/pro/image-to-video` | `duration: "5"` veya `"10"` SABIT (custom değer enum dışı). 5s clipler kompozit içinde 4.4s'a trim edilebilir Shotstack `length`'iyle. Negative prompt'a "fast cuts, jittery, deformed hands" eklemek hareketi yumuşatıyor. |
+| `mcp__1d4122d5-739d-47ae-abed-5805aa113d17__get_shotstack_guide` | 2026-05-19 itibarıyla **500 hatası veriyor** — schema description'ları detaylı yazıldığı için bypass mümkün. `rich-text` font.family ONLY built-in: Roboto, Montserrat, Open Sans, Work Sans, Permanent Marker, Lato değil. `lineHeight` ve `letterSpacing` `font` objesinde değil, `style` objesinde. `alignment` değil, `align`. Bu üçü validation fail sebebi. |
 
 ---
 

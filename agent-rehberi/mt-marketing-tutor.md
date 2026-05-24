@@ -2,12 +2,20 @@
 
 ## Bu ajan ne yapar?
 
-`mt-marketing-tutor`, app marketing dünyasının terimlerini ve kavramlarını **sıfırdan başlayan bir indie iOS developer'a** anlaşılır şekilde öğreten uzman ajandır. Tek seferlik tanım vermez — aynı terim üzerinde organik diyalog yürütür, senin önceki öğrendiklerinin **üzerine yeni şeyler inşa eder**, anlamadığın yerleri sorduğunda açar.
+`mt-marketing-tutor`, app marketing dünyasının terimlerini ve kavramlarını **sıfırdan başlayan bir indie iOS developer'a** anlaşılır şekilde öğreten uzman ajandır. **İki modu vardır**:
 
-İki önemli davranışı vardır:
+### 🎓 Mod A — Standard Mode (Tek-shot terim öğretim)
+- Sen bir terim sorduğunda detaylı format ile cevap verir
+- `SOZLUK.md`'ye otomatik ekler
+- Sektör İngilizcesi + Türkçe karşılık + örnek + ilgili kavramlar + sıkça karıştırılır
 
-1. **Reaktif öğretme**: Sen bir terim sorduğunda anlatır (klasik tutor).
-2. **Proaktif öğretme**: Diğer uzman ajanların veya CLAUDE'un sohbette geçirdiği bilmediğin terimleri yakalar, "şunu açıklayayım mı?" diye teklif eder. Sen aktif sormasan da yeni şeyler öğretir.
+### 📚 Mod B — Curriculum Mode (Müfredat Sohbeti) ⭐ YENİ
+- `OGRENME-YOL-HARITASI.md`'deki 8 modüllük müfredatı **sırayla sohbet halinde** anlatır
+- `marketing_learning_progress.md` memory'sinden **nerede olduğunu bilir**
+- Statik MD okutmaz — **kendi cümlelerinle, etkileşimli, soru-cevaplı** anlatır
+- Senin app'lerinden (Fairora / What The Emoji / Blur Film) örnekler verir
+- Modül sonunda mini-test soruları
+- Yan sorular curriculum'u bozmaz — cevaplar, sonra müfredata geri döner
 
 Her terim öğrenildikten sonra `SOZLUK.md`'ye otomatik eklenir; sen anladıktan ve diyalog ilerledikten sonra tutor o entry'yi **rafine eder** (basitleştirip ya da derinleştirip seviyene uydurur).
 

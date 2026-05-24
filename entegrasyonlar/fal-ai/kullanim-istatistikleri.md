@@ -9,7 +9,7 @@
 
 | Ay | Toplam çağrı | Image üretim | Video üretim | Audio | Toplam maliyet | Notu |
 |---|---|---|---|---|---|---|
-| 2026-05 | 0 | 0 | 0 | 0 | $0 | Henüz aktif değil |
+| 2026-05 | 13 | 7 (FLUX Schnell) | 6 (Kling 2.5 Turbo Pro × 5, Veo 3.1 × 1) | 0 | ~$4.97 | BlurFilm App Store preview v1 + UGC TikTok v1 |
 
 ---
 
@@ -19,7 +19,8 @@
 
 | Tarih | Brief | Model(ler) | Adet | Maliyet | Kalite skor ortalama |
 |---|---|---|---|---|---|
-| — | — | — | — | — | — |
+| 2026-05-19 | BlurFilm App Store preview video (EN) | FLUX Schnell + Kling 2.5 Turbo Pro | 7 img + 5 video | ~$1.77 | 69/80 (final composite) — KULLANICI REDDETTI: logo yanlış, emojiler var, konsept saçma |
+| 2026-05-19 | BlurFilm TikTok UGC ad v1 (EN, "boyfriend fight" angle) | Veo 3.1 (text-to-video, native audio) | 1 video 8s | $3.20 | Pending user review |
 
 ---
 

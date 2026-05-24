@@ -57,7 +57,7 @@ Her ajan/skill için 5-15 tetikleyici ifade aşağıda listelenir. Phase 1 ve Ph
 
 | Ajan | Tetikleyici İfadeler |
 |---|---|
-| `mt-marketing-tutor` | "X nedir", "Y ne demek", "kavram açıkla", "fark nedir", "terim", "anlamadım", "ne anlama geliyor", "kısaca anlat" |
+| `mt-marketing-tutor` | "X nedir", "Y ne demek", "kavram açıkla", "fark nedir", "terim", "anlamadım", "ne anlama geliyor", "kısaca anlat", "öğrenmeye başla", "öğrenmeye devam edelim", "sırada hangi modül", "kaldığım yerden devam", "modül X'e geç", "müfredata dön", "eğitime başla", "ders başlat" |
 | `mt-hesap-kurulum-rehberi` | "hesap aç", "kayıt ol", "business manager kur", "ad account aç", "Meta'ya kaydolmak", "TikTok for Business hesabı", "vergi numarası", "doğrulama belgesi", "ödeme yöntemi ekle", "ilk kurulum", "platforma giriş" |
 | `mt-paid-ua-uzmani` | "hangi kanaldan", "kanal mix", "kanal seçimi", "paid başlamak", "UA stratejisi", "funnel", "user acquisition", "ücretli reklam stratejisi" |
 | `mt-meta-ads-uzmani` | "meta reklam", "facebook reklam", "instagram reklam", "advantage+", "AAC", "Advantage+ App Campaign", "AEM", "Aggregated Event Measurement", "9 event limit", "SKAN setup", "SKAdNetwork postback", "Conversion API", "CAPI", "domain verification", "Meta pixel", "Meta SDK", "Advantage+ Audience", "Custom Audience", "Lookalike", "LAL", "Reels reklam spec", "Meta cost cap", "Meta bid cap", "CBO", "ABO", "modeled conversion" |
@@ -76,6 +76,7 @@ Her ajan/skill için 5-15 tetikleyici ifade aşağıda listelenir. Phase 1 ve Ph
 | Skill | Tetikleyici İfadeler |
 |---|---|
 | `mt-terim-ogren` | (slash: `/mt-terim-ogren <terim>`) |
+| `mt-ogren` | "/mt-ogren", "/mt-ogren modul N", "öğrenmeye başla", "kaldığım yerden devam", "modül X'e geç", "ders başlat", "müfredat" |
 | `mt-yeni-uygulama` | "yeni uygulama ekledim", "uygulama eklemek istiyorum", "yeni app", "app launch" |
 | `mt-hesap-ac` | "hesap aç" + platform adı, "platform kayıt", "ilk hesap kurulumu" |
 | `mt-yeni-kampanya` | "yeni kampanya", "kampanya başlat", "kampanya kur" |
