@@ -2,7 +2,7 @@
 
 Bu dosya hangi platforma / hangi servise API ya da MCP üzerinden bağlı olduğunu özetler. Her satır bir entegrasyon.
 
-> Güncelleme tarihi: 2026-05-18
+> Güncelleme tarihi: 2026-06-05
 
 ## Genel tablo
 
@@ -15,9 +15,10 @@ Bu dosya hangi platforma / hangi servise API ya da MCP üzerinden bağlı olduğ
 | **n8n MCP** | MCP | ✅ Kurulu | (opsiyonel, workflow için) | İleri otomasyon |
 | **mcp-registry** | MCP | ✅ Kurulu | `mt-entegrasyon-kurucu` | Yeni MCP arama |
 | **WebSearch / WebFetch** | Built-in | ✅ Hazır | Çoğu ajan | Rakip analizi, benchmark araştırma |
+| **App Store Connect API** | REST API (JWT) | ✅ Kurulu + test edildi | `mt-kampanya-analisti`, `mt-aso-uzmani` | Organik App Store verisi: analytics, metadata, review, satış. Helper: `entegrasyonlar/app-store-connect/asc.js`. ⚠️ ASA'dan farklı |
 | **Meta Marketing API** | REST API | ⏳ Phase 4 | `mt-meta-ads-uzmani`, `mt-kampanya-analisti` | Hesap açılınca + token alınınca aktif |
 | **TikTok Business API** | REST API | ⏳ Phase 4 | `mt-tiktok-ads-uzmani` | Hesap açılınca + token alınınca aktif |
-| **Apple Search Ads Campaign Management API** | REST API | ⏳ Phase 4 | `mt-apple-search-ads-uzmani` | Apple Developer kimliği gerekli |
+| **Apple Search Ads Campaign Management API** | REST API (OAuth/ES256 JWT) | ✅ Kurulu + test edildi | `mt-apple-search-ads-uzmani`, `mt-kampanya-analisti` | v5. Kendi script'imiz `entegrasyonlar/apple-search-ads/asa-token.js` (sıfır bağımlılık). org: Musa Umut Sever (8823130). ⚠️ App Store Connect API'den farklı (reklam vs organik) |
 | **Google Ads API** | REST API | ⏳ Phase 4 | `mt-google-ads-uzmani` | Google Cloud project + developer token |
 | **AppsFlyer / Adjust API** | REST API | ❌ Karar verilmedi | `mt-kampanya-analisti` | MMP kullanılıyorsa açılır |
 

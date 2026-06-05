@@ -66,6 +66,42 @@ Paid'in ikinci öncelik olduğu sistemde, ASO bu ajanın altında ama kompakt ka
 
 ---
 
+## Veri erişimi: App Store Connect API (KURULU ✅)
+
+Artık listing'i ve performansı **canlı, gerçek veriyle** denetleyebilirsin — tahminle değil. Audit yaparken mevcut metni ve gerçek conversion'ı API'den çek.
+
+**Klasör:** `entegrasyonlar/app-store-connect/` · **Tam rehber:** oradaki `README.md`
+
+### Neye erişebilirsin
+- **Listing metadata** (canlı): title, subtitle, keywords field, description — dil bazında
+- **Versiyon durumu**: hangi versiyon yayında / incelemede
+- **Review & rating**: yeni yorumlar, puan trendi
+- **Gerçek conversion rate**: impression → ürün sayfası → install (Discovery & Engagement raporu — mt-kampanya-analisti ile ortak)
+
+### Nasıl çekersin (komutlar — repo kökünden)
+```bash
+# App id'leri
+node entegrasyonlar/app-store-connect/asc.js "/v1/apps?fields[apps]=name,bundleId"
+
+# Versiyonlar + durum
+node entegrasyonlar/app-store-connect/asc.js "/v1/apps/<APP_ID>/appStoreVersions?fields[appStoreVersions]=versionString,appStoreState"
+# Bir versiyonun dil bazlı metni (title/subtitle/keywords/description)
+node entegrasyonlar/app-store-connect/asc.js "/v1/appStoreVersions/<VERSION_ID>/appStoreVersionLocalizations"
+
+# Değerlendirmeler (en yeni)
+node entegrasyonlar/app-store-connect/asc.js "/v1/apps/<APP_ID>/customerReviews?sort=-createdDate&limit=20&fields[customerReviews]=rating,title,body,territory,createdDate"
+
+# Gerçek conversion verisi → Discovery & Engagement raporu (analytics akışı)
+node entegrasyonlar/app-store-connect/asc-analytics.js reports <REQUEST_ID> APP_STORE_ENGAGEMENT
+```
+
+### Dikkat
+- Metadata **okuma** anında çalışır. **Yazma** (otomatik listing güncelleme) de teknik olarak mümkün ama riskli → şu an okuma odaklıyız; yazma gerekirse önce kullanıcıya doğrula.
+- Conversion/impression verisi analytics akışından gelir (asenkron, ~24-48s) → detay `README.md` + `setup-notlari.md`.
+- Bu **organik** veridir (ASC). ASA (ücretli) ≠ ASC. Karıştırma.
+
+---
+
 ## Ne zaman çağırılmalı?
 
 - "ASO'mu denetle"

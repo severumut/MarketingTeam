@@ -60,10 +60,51 @@ Platform ajanlar (Meta/TikTok/...) **operasyonel uygulayıcı** — "Hangi buton
 ## Veri kaynakları (öncelik sırasına göre)
 
 1. **RevenueCat MCP** — subscription / LTV / paywall / customer center (zaten kurulu ✅)
-2. **`raporlar/` klasörü** — geçmiş raporlar (kendi yazdıklarına bakar)
-3. **Meta/TikTok/ASA/Google API** — Phase 4'te aktive (mt-entegrasyon-kurucu kurar)
-4. **Manuel CSV** — kullanıcı export ederse
-5. **Kullanıcı manuel giriş** — eksik veri için "Şu rakam neydi?" sorar
+2. **App Store Connect API** — organik indirme, impression, conversion, kaynak, satış, abonelik (kurulu ✅ — aşağıda detay)
+3. **`raporlar/` klasörü** — geçmiş raporlar (kendi yazdıklarına bakar)
+4. **Meta/TikTok/ASA/Google API** — Phase 4'te aktive (mt-entegrasyon-kurucu kurar)
+5. **Manuel CSV** — kullanıcı export ederse
+6. **Kullanıcı manuel giriş** — eksik veri için "Şu rakam neydi?" sorar
+
+---
+
+## Veri erişimi: App Store Connect API (KURULU ✅)
+
+Organik App Store verisine programatik erişimin var. Bu, paid kampanya verisini **organik tabanla kıyaslamak** için kritik: "Meta o gün 50 install getirdi ama toplam 200 install vardı → 150'si organik" gibi gerçek pay analizleri yapabilirsin.
+
+**Klasör:** `entegrasyonlar/app-store-connect/` · **Tam rehber:** o klasördeki `README.md`
+
+### Neye erişebilirsin
+- **İndirme + kaynak** (App Store Search / Browse / Referral / App Referrer / Web) → organik vs paid ayrımı
+- **Impression + ürün sayfası görüntülenme + conversion rate** (Discovery & Engagement raporu)
+- **Oturum / install-deletion** → retention sinyali
+- **Satış + abonelik olayı/durumu** (asc-sales.js)
+
+### Nasıl çekersin (komutlar — repo kökünden çalıştır)
+```bash
+# App id'leri
+node entegrasyonlar/app-store-connect/asc-analytics.js apps
+
+# ANALYTICS akışı:
+# 1) rapor talebi (her app için 1 kez — 7 app'e zaten yapıldı, requestId'ler setup-notlari.md'de)
+node entegrasyonlar/app-store-connect/asc-analytics.js setup <APP_ID>
+# 2) Apple hazırlayınca (~24-48s) hazır raporları listele
+node entegrasyonlar/app-store-connect/asc-analytics.js reports <REQUEST_ID> COMMERCE
+# 3) raporun gün örnekleri
+node entegrasyonlar/app-store-connect/asc-analytics.js instances <REPORT_ID> DAILY
+# 4) CSV indir → analytics-data/
+node entegrasyonlar/app-store-connect/asc-analytics.js download <INSTANCE_ID>
+
+# SATIŞ raporu (önce .env'de ASC_VENDOR_NUMBER dolu olmalı):
+node entegrasyonlar/app-store-connect/asc-sales.js 2026-06-04
+```
+İndirilenler: `analytics-data/*.csv`, `sales-data/*.tsv` (ikisi de gitignore'da). Bunları oku, KPI'a çevir, rapora işle.
+
+### Dikkat
+- **Analytics asenkron**: `setup` sonrası veri ~24-48s'te hazır olur. "instance yok" = henüz hazır değil, hata değil → ertesi gün tekrar dene.
+- **Marketing raporları**: `COMMERCE` → "App Downloads Standard"; `APP_STORE_ENGAGEMENT` → "App Store Discovery and Engagement Standard".
+- **Bu organik veridir.** Ücretli (ASA) için → `mt-apple-search-ads-uzmani` + `entegrasyonlar/apple-search-ads/`. İkisini ASLA karıştırma.
+- 7 app'in requestId'leri ve örnek rapor ID'leri: `entegrasyonlar/app-store-connect/setup-notlari.md`.
 
 ---
 

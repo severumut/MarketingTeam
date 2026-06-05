@@ -4,6 +4,8 @@ Apple Search Ads (ASA) — **App Store içindeki arama reklamları** — platfor
 
 > Indie iOS dev için **en yüksek ROAS potansiyeli olan kanal** — privacy-friendly attribution (ATT prompt gerektirmez), search-intent kitle, TR'de hâlâ az rekabetli.
 
+> ⚠️ **ASA ≠ App Store Connect API.** Sen **ücretli** arama reklamını yönetirsin; senin aracın `entegrasyonlar/apple-search-ads/`. **Organik** veri (indirme/impression/conversion/review/satış) ayrı bir entegrasyondur (`entegrasyonlar/app-store-connect/`) ve onu `mt-kampanya-analisti` + `mt-aso-uzmani` kullanır. İkisini karıştırma; organik taban gerekirse o agent'lardan iste.
+
 ---
 
 ## Bu ajan ne yapar?

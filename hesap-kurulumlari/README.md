@@ -36,7 +36,7 @@ hesap-kurulumlari/
 |---|---|
 | Meta Business | ❌ Açılmadı |
 | TikTok for Business | ❌ Açılmadı |
-| Apple Search Ads | ❌ Açılmadı |
+| Apple Search Ads | ✅ Tamamlandı (2026-06-05) |
 | Google Ads | ❌ Açılmadı |
 
 > Not: Apple Search Ads için iOS dev olduğun için zaten Apple Developer hesabın var → daha kolay olacak.

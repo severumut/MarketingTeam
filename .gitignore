@@ -41,3 +41,7 @@ projects/*/notes-private.md
 # MarketingTeam — Lokal AI agent state / cache
 .cache/
 .tmp/
+
+# MarketingTeam — App Store Connect ham veri çıktıları (analytics/sales CSV-TSV, repo'ya gitmez)
+entegrasyonlar/app-store-connect/analytics-data/
+entegrasyonlar/app-store-connect/sales-data/
